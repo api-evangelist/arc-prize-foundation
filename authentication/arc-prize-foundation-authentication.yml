@@ -1,0 +1,15 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/arc-prize-foundation-arc-agi-3-openapi.yaml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: X-API-Key
+  sources:
+  - openapi/arc-prize-foundation-arc-agi-3-openapi.yaml
