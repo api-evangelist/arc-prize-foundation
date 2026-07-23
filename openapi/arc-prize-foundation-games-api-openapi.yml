@@ -1,0 +1,60 @@
+openapi: 3.0.3
+info:
+  title: ARC‑AGI‑3 REST Commands Games API
+  version: 1.0.0
+  description: "Programmatic interface for running agents against ARC‑AGI‑3 games, opening/closing score‑cards and driving game state with actions.\nAll requests **require** an `X‑API‑Key` header issued from the ARC‑AGI‑3 web console.\n\n**Important: Session Affinity via Cookies**  \nGames are stateful and require session affinity. The server sets cookies (especially `AWSALB*` cookies) in responses that **must be included in all subsequent requests** for the same game session. These cookies route requests to the correct backend instance maintaining your game state. Most HTTP clients handle cookies automatically, but ensure your client preserves and sends cookies received from RESET and ACTION responses.\n"
+servers:
+- url: https://three.arcprize.org
+tags:
+- name: Games
+paths:
+  /api/games:
+    get:
+      tags:
+      - Games
+      summary: List available games
+      description: "Retrieves metadata for every game currently exposed by the\nARC-AGI-3 platform.  \nUse this discovery endpoint to obtain `game_id` values before\nopening a scorecard or issuing commands. Results are returned as\na flat array ordered alphabetically by `title`.\n"
+      operationId: listGames
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Successful lookup; array of game descriptors.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Game'
+              examples:
+                sample:
+                  summary: Two games
+                  value:
+                  - game_id: ls20-016295f7601e
+                    title: LS20
+                  - game_id: ft09-16726c5b26ff
+                    title: FT09
+        '401':
+          description: Missing or invalid **X-API-Key** header.
+components:
+  schemas:
+    Game:
+      type: object
+      description: "Human-readable name/identifier pair for an ARC-AGI-3 game.  \nUsed when listing available titles or embedding game metadata in other payloads.\n"
+      properties:
+        game_id:
+          type: string
+          example: ls20-016295f7601e
+          description: Stable, globally unique ID combining slug and version/hash.
+        title:
+          type: string
+          example: LS20
+          description: Display title shown in UIs and scorecards.
+      required:
+      - game_id
+      - title
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key

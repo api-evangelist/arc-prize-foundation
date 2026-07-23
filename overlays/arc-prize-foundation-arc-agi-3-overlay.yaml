@@ -1,0 +1,42 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enrichment overlay for ARC-AGI-3 REST API
+  version: 1.0.0
+extends: ../openapi/arc-prize-foundation-arc-agi-3-openapi.yaml
+x-generated: '2026-07-18'
+x-method: generated
+x-source: derived from ARC-AGI-3 docs (docs.arcprize.org) + apis.yml
+actions:
+- target: $.info
+  description: Add provider, license, and contact metadata surfaced during enrichment.
+  update:
+    x-provider: Arc Prize Foundation
+    x-api-status: research-preview
+    contact:
+      name: ARC Prize Foundation
+      email: team@arcprize.org
+      url: https://docs.arcprize.org
+    license:
+      name: Research preview — best-effort, no SLA
+- target: $
+  description: Record the enrichment-confirmed production server host.
+  update:
+    x-servers-confirmed:
+    - url: https://three.arcprize.org
+      description: ARC-AGI-3 production API
+- target: $.components.securitySchemes.ApiKeyAuth
+  description: Annotate the API-key scheme with registration and anonymous-key detail.
+  update:
+    description: >-
+      X-API-Key header. Register a key at https://arcprize.org/platform (sign in
+      with Google or GitHub). An anonymous key is used if none is supplied;
+      registered keys unlock more games.
+    x-key-registration: https://arcprize.org/platform
+    x-anonymous-key: true
+- target: $.paths./api/cmd/ACTION1.post
+  description: Document the session-affinity cookie requirement for command calls.
+  update:
+    x-session-affinity: >-
+      Games are stateful. The server sets AWSALB* cookies that must be echoed on
+      all subsequent requests for the same session.
+    x-rate-limit-rpm: 600

@@ -1,0 +1,18 @@
+{
+  "provider": "arc-prize-foundation",
+  "sources": [
+    "arc-prize-foundation-commands-api-openapi.yml",
+    "arc-prize-foundation-games-api-openapi.yml",
+    "arc-prize-foundation-scorecards-api-openapi.yml"
+  ],
+  "outputs": [
+    "arc-prize-foundation-commands-api-openapi.yml",
+    "arc-prize-foundation-games-api-openapi.yml",
+    "arc-prize-foundation-scorecards-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

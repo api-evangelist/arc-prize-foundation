@@ -1,0 +1,9 @@
+generated: '2026-07-18'
+method: generated
+source: openapi/arc-prize-foundation-arc-agi-3-openapi.yaml
+skills:
+- name: arc-agi-3-play-game
+  file: arc-prize-foundation-play-game.md
+  description: Open a scorecard, start an ARC-AGI-3 game, drive it with actions, and
+    close the scorecard to record a score.
+  api: ARC-AGI-3 REST API

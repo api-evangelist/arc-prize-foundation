@@ -1,0 +1,49 @@
+generated: '2026-07-18'
+method: probed
+source: live probes of base hosts for /.well-known/* documents
+note: >-
+  Every /.well-known/* path on three.arcprize.org returns HTTP 200 but with
+  content-type text/html — the single-page-app catch-all shell, not a genuine
+  well-known document. Treated as NOT PRESENT (no authentic artifact saved).
+  arcprize.org and docs.arcprize.org return 404 for all probed paths.
+probes:
+- host: three.arcprize.org
+  path: /.well-known/security.txt
+  status: 200
+  content_type: text/html
+  authentic: false
+  file: null
+- host: three.arcprize.org
+  path: /.well-known/openid-configuration
+  status: 200
+  content_type: text/html
+  authentic: false
+  file: null
+- host: three.arcprize.org
+  path: /.well-known/oauth-authorization-server
+  status: 200
+  content_type: text/html
+  authentic: false
+  file: null
+- host: three.arcprize.org
+  path: /.well-known/api-catalog
+  status: 200
+  content_type: text/html
+  authentic: false
+  file: null
+- host: three.arcprize.org
+  path: /.well-known/ai-plugin.json
+  status: 200
+  content_type: text/html
+  authentic: false
+  file: null
+- host: arcprize.org
+  path: /.well-known/security.txt
+  status: 404
+  authentic: false
+  file: null
+- host: docs.arcprize.org
+  path: /.well-known/security.txt
+  status: 404
+  authentic: false
+  file: null

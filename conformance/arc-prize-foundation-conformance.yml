@@ -1,0 +1,31 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/arc-prize-foundation-arc-agi-3-openapi.yaml + docs.arcprize.org
+standards:
+- id: oauth2
+  conforms: false
+  evidence: Auth is a static API key (X-API-Key header); no OAuth2 flows declared.
+- id: oidc
+  conforms: false
+  evidence: No OpenID Connect discovery or flows; /.well-known/openid-configuration
+    resolves only to the SPA shell.
+- id: rfc9457
+  conforms: false
+  evidence: Errors use a plain {error, message} JSON envelope, not application/problem+json.
+- id: json:api
+  conforms: false
+  evidence: Responses are bespoke JSON schemas (FrameResponse, ScorecardSummary),
+    not JSON:API document structure.
+- id: pagination
+  conforms: false
+  evidence: listGames returns a flat, unpaginated array ordered alphabetically by title.
+- id: idempotency
+  conforms: false
+  evidence: No Idempotency-Key header or idempotent-retry semantics documented; RESET
+    reuses a guid for session continuity but is not an idempotency mechanism.
+- id: rate-limiting
+  conforms: true
+  evidence: Documented 600 RPM limit returning HTTP 429 with {error RATE_LIMIT_EXCEEDED}.
+- id: openapi
+  conforms: true
+  evidence: Publishes an OpenAPI 3.0.3 description at docs.arcprize.org/arc3v1.yaml.

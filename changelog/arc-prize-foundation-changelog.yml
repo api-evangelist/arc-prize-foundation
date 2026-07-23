@@ -1,0 +1,22 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.arcprize.org/changelog
+scheme: dated
+current_version: '0.9.1'
+url: https://docs.arcprize.org/changelog
+entries:
+- date: '2026-04-14'
+  breaking: false
+  additions: false
+  highlights: >-
+    Scoring methodology revised — human baseline now uses the median human per
+    level; per-level score cap raised to 1.15x; scorecard maximum open duration
+    capped at 24 hours; game versions updated across 15 titles.
+- version: '0.9.1'
+  date: '2026-01-29'
+  breaking: false
+  additions: true
+  highlights: >-
+    ARC-AGI Toolkit released for local deployment — open-source environment
+    engine, human-verified games, and human-normalized scorecards for running
+    ARC-AGI-3 environments at high speed.

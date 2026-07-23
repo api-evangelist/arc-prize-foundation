@@ -1,0 +1,646 @@
+openapi: 3.0.3
+info:
+  title: ARC‑AGI‑3 REST Commands API
+  version: 1.0.0
+  description: "Programmatic interface for running agents against ARC‑AGI‑3 games, opening/closing score‑cards and driving game state with actions.\nAll requests **require** an `X‑API‑Key` header issued from the ARC‑AGI‑3 web console.\n\n**Important: Session Affinity via Cookies**  \nGames are stateful and require session affinity. The server sets cookies (especially `AWSALB*` cookies) in responses that **must be included in all subsequent requests** for the same game session. These cookies route requests to the correct backend instance maintaining your game state. Most HTTP clients handle cookies automatically, but ensure your client preserves and sends cookies received from RESET and ACTION responses.\n"
+servers:
+- url: https://three.arcprize.org
+tags:
+- name: Commands
+paths:
+  /api/cmd/RESET:
+    post:
+      tags:
+      - Commands
+      summary: Start or reset game instance
+      description: "Creates a new game session **or** resets an existing one,\ndepending on the presence of `guid` in the request body:\n\n• **Omit `guid` or set it to `null`** → start a brand-new game\n  instance.  \n• **Provide an existing `guid`** → reset that session.  \n  - If at least one ACTION command has been issued since the last\n    level transition, only the **current level** is restarted.  \n  - If no ACTIONs have been issued, the entire game resets.  \n  Two consecutive RESETs therefore guarantee a completely fresh\n  game.\n\nThe call always returns the first (or refreshed) frame of the\ngame state, along with updated score and win condition.\n\n**Note:** The response includes cookies (particularly `AWSALB*` cookies) that must be included in all subsequent ACTION commands for this session. These cookies ensure requests are routed to the same backend instance maintaining your game state.\n"
+      operationId: resetGame
+      security:
+      - ApiKeyAuth: []
+      requestBody:
+        description: Game identifier, scorecard ID, and (optionally) the session `guid`.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetCommand'
+            examples:
+              newGame:
+                summary: Start a new session
+                value:
+                  game_id: ls20-016295f7601e
+                  card_id: 8bb3b1b8-4b46-4a29-a13b-ad7850a0f916
+              levelReset:
+                summary: Reset current level of an existing session
+                value:
+                  game_id: ls20-016295f7601e
+                  card_id: 8bb3b1b8-4b46-4a29-a13b-ad7850a0f916
+                  guid: 2fa5332c-2e55-4825-b5c5-df960d504470
+      responses:
+        '200':
+          description: First frame after starting or resetting the session.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FrameResponse'
+              examples:
+                frame:
+                  value:
+                    game_id: ls20-016295f7601e
+                    guid: 2fa5332c-2e55-4825-b5c5-df960d504470
+                    frame:
+                    - - - 0
+                        - 0
+                        - 0
+                        - …
+                      - - …
+                    state: NOT_FINISHED
+                    levels_completed: 0
+                    win_levels: 254
+                    action_input:
+                      id: 0
+                      data: {}
+                    available_actions:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+        '400':
+          description: "Bad request - possible causes:  \n• Unknown `game_id`  \n• Missing or unknown `card_id`  \n• `guid` does not correspond to an active session\n"
+        '401':
+          description: Missing or invalid **X-API-Key** header.
+  /api/cmd/ACTION1:
+    post:
+      tags:
+      - Commands
+      summary: Execute simple action 1
+      description: "Issues **ACTION 1** to the specified game session.  \nThis is a single-parameter command (no X/Y coordinates): the exact\nin-game effect depends on the title—for example, it might\nrepresent “move up” or “select option A”.\n\nThe request must include:\n• `game_id` — which game to act on  \n• `guid` — the active session identifier returned from RESET  \n\nAn optional `reasoning` JSON blob (≤ 16 KB) can be attached for\naudit or research purposes.\n\nA successful call returns the next visual frame(s) and updated\nscore/state.\n"
+      operationId: action1
+      security:
+      - ApiKeyAuth: []
+      requestBody:
+        description: Game/session identifiers plus optional reasoning data.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimpleActionCommand'
+            examples:
+              action:
+                value:
+                  game_id: ls20-016295f7601e
+                  guid: 2fa5332c-2e55-4825-b5c5-df960d504470
+                  reasoning:
+                    policy: π_left
+      responses:
+        '200':
+          description: Frame returned after executing the action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FrameResponse'
+              examples:
+                frame:
+                  value:
+                    game_id: ls20-016295f7601e
+                    guid: 2fa5332c-2e55-4825-b5c5-df960d504470
+                    frame:
+                    - - - 0
+                        - 0
+                        - 1
+                        - …
+                      - - …
+                    state: NOT_FINISHED
+                    levels_completed: 3
+                    win_levels: 254
+                    action_input:
+                      id: 1
+                    available_actions:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+        '400':
+          description: "Bad request - possible causes:  \n• Unknown `game_id` or invalid format  \n• `guid` not found or does not belong to `game_id`  \n• `reasoning` field exceeds 16 KB or is malformed\n"
+        '401':
+          description: Missing or invalid **X-API-Key** header.
+  /api/cmd/ACTION2:
+    post:
+      tags:
+      - Commands
+      summary: Execute simple action 2
+      description: "Issues **ACTION 2** to the specified game session.  \nThis is a single-parameter command (no X/Y coordinates): the exact\nin-game effect depends on the title—for example, it might\nrepresent “move down\" or “select option B”.\n\nThe request must include:\n• `game_id` — which game to act on  \n• `guid` — the active session identifier returned from RESET  \n\nAn optional `reasoning` JSON blob (≤ 16 KB) can be attached for\naudit or research purposes.\n\nA successful call returns the next visual frame(s) and updated\nscore/state.\n"
+      operationId: action2
+      security:
+      - ApiKeyAuth: []
+      requestBody:
+        description: Game/session identifiers plus optional reasoning data.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimpleActionCommand'
+            examples:
+              action:
+                value:
+                  game_id: ls20-016295f7601e
+                  guid: 2fa5332c-2e55-4825-b5c5-df960d504470
+                  reasoning:
+                    policy: π_left
+      responses:
+        '200':
+          description: Frame returned after executing the action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FrameResponse'
+              examples:
+                frame:
+                  value:
+                    game_id: ls20-016295f7601e
+                    guid: 2fa5332c-2e55-4825-b5c5-df960d504470
+                    frame:
+                    - - - 0
+                        - 0
+                        - 1
+                        - …
+                      - - …
+                    state: NOT_FINISHED
+                    levels_completed: 3
+                    win_levels: 254
+                    action_input:
+                      id: 2
+                    available_actions:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+        '400':
+          description: "Bad request - possible causes:  \n• Unknown `game_id` or invalid format  \n• `guid` not found or does not belong to `game_id`  \n• `reasoning` field exceeds 16 KB or is malformed\n"
+        '401':
+          description: Missing or invalid **X-API-Key** header.
+  /api/cmd/ACTION3:
+    post:
+      tags:
+      - Commands
+      summary: Execute simple action 3
+      description: "Issues **ACTION 3** to the specified game session.  \nThis is a single-parameter command (no X/Y coordinates): the exact\nin-game effect depends on the title—for example, it might\nrepresent “move left” or “select option C”.\n\nThe request must include:\n• `game_id` — which game to act on  \n• `guid` — the active session identifier returned from RESET  \n\nAn optional `reasoning` JSON blob (≤ 16 KB) can be attached for\naudit or research purposes.\n\nA successful call returns the next visual frame(s) and updated\nscore/state.\n"
+      operationId: action3
+      security:
+      - ApiKeyAuth: []
+      requestBody:
+        description: Game/session identifiers plus optional reasoning data.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimpleActionCommand'
+            examples:
+              action:
+                value:
+                  game_id: ls20-016295f7601e
+                  guid: 2fa5332c-2e55-4825-b5c5-df960d504470
+                  reasoning:
+                    policy: π_left
+      responses:
+        '200':
+          description: Frame returned after executing the action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FrameResponse'
+              examples:
+                frame:
+                  value:
+                    game_id: ls20-016295f7601e
+                    guid: 2fa5332c-2e55-4825-b5c5-df960d504470
+                    frame:
+                    - - - 0
+                        - 0
+                        - 1
+                        - …
+                      - - …
+                    state: NOT_FINISHED
+                    levels_completed: 3
+                    win_levels: 254
+                    action_input:
+                      id: 3
+                    available_actions:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+        '400':
+          description: "Bad request - possible causes:  \n• Unknown `game_id` or invalid format  \n• `guid` not found or does not belong to `game_id`  \n• `reasoning` field exceeds 16 KB or is malformed\n"
+        '401':
+          description: Missing or invalid **X-API-Key** header.
+  /api/cmd/ACTION4:
+    post:
+      tags:
+      - Commands
+      summary: Execute simple action 4
+      description: "Issues **ACTION 4** to the specified game session.  \nThis is a single-parameter command (no X/Y coordinates): the exact\nin-game effect depends on the title—for example, it might\nrepresent “move right\" or “select option D”.\n\nThe request must include:\n• `game_id` — which game to act on  \n• `guid` — the active session identifier returned from RESET  \n\nAn optional `reasoning` JSON blob (≤ 16 KB) can be attached for\naudit or research purposes.\n\nA successful call returns the next visual frame(s) and updated\nscore/state.\n"
+      operationId: action4
+      security:
+      - ApiKeyAuth: []
+      requestBody:
+        description: Game/session identifiers plus optional reasoning data.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimpleActionCommand'
+            examples:
+              action:
+                value:
+                  game_id: ls20-016295f7601e
+                  guid: 2fa5332c-2e55-4825-b5c5-df960d504470
+                  reasoning:
+                    policy: π_left
+      responses:
+        '200':
+          description: Frame returned after executing the action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FrameResponse'
+              examples:
+                frame:
+                  value:
+                    game_id: ls20-016295f7601e
+                    guid: 2fa5332c-2e55-4825-b5c5-df960d504470
+                    frame:
+                    - - - 0
+                        - 0
+                        - 1
+                        - …
+                      - - …
+                    state: NOT_FINISHED
+                    levels_completed: 3
+                    win_levels: 254
+                    action_input:
+                      id: 4
+                    available_actions:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+        '400':
+          description: "Bad request - possible causes:  \n• Unknown `game_id` or invalid format  \n• `guid` not found or does not belong to `game_id`  \n• `reasoning` field exceeds 16 KB or is malformed\n"
+        '401':
+          description: Missing or invalid **X-API-Key** header.
+  /api/cmd/ACTION5:
+    post:
+      tags:
+      - Commands
+      summary: Execute simple action 5
+      description: "Issues **ACTION 5** to the specified game session.  \nThis is a single-parameter command (no X/Y coordinates): the exact\nin-game effect depends on the title—for example, it might\nrepresent “jump”, \"rotate\", \"fire\" or “select option E”.\n\nThe request must include:\n• `game_id` — which game to act on  \n• `guid` — the active session identifier returned from RESET  \n\nAn optional `reasoning` JSON blob (≤ 16 KB) can be attached for\naudit or research purposes.\n\nA successful call returns the next visual frame(s) and updated\nscore/state.\n"
+      operationId: action5
+      security:
+      - ApiKeyAuth: []
+      requestBody:
+        description: Game/session identifiers plus optional reasoning data.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimpleActionCommand'
+            examples:
+              action:
+                value:
+                  game_id: ls20-016295f7601e
+                  guid: 2fa5332c-2e55-4825-b5c5-df960d504470
+                  reasoning:
+                    policy: π_left
+      responses:
+        '200':
+          description: Frame returned after executing the action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FrameResponse'
+              examples:
+                frame:
+                  value:
+                    game_id: ls20-016295f7601e
+                    guid: 2fa5332c-2e55-4825-b5c5-df960d504470
+                    frame:
+                    - - - 0
+                        - 0
+                        - 1
+                        - …
+                      - - …
+                    state: NOT_FINISHED
+                    levels_completed: 3
+                    win_levels: 254
+                    action_input:
+                      id: 5
+                    available_actions:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+        '400':
+          description: "Bad request - possible causes:  \n• Unknown `game_id` or invalid format  \n• `guid` not found or does not belong to `game_id`  \n• `reasoning` field exceeds 16 KB or is malformed\n"
+        '401':
+          description: Missing or invalid **X-API-Key** header.
+  /api/cmd/ACTION6:
+    post:
+      tags:
+      - Commands
+      summary: Execute complex action (requires x,y)
+      description: "Issues **ACTION 6**—a two-parameter command that supplies explicit\nX/Y coordinates—to an active game session.  Common use-cases\ninclude “click/tap at (x,y)”, “place a tile”, or “shoot a\nprojectile,” depending on the game's mechanics.\n\nRequired fields  \n• `game_id` — the game to act in  \n• `guid`    — session identifier obtained from RESET  \n• `x`,`y`   — zero-based grid coordinates (0-63 inclusive)\n\nOn success the server applies the action, advances game logic to\nthe next stable frame, and returns that frame together with the\nupdated score, state, and win condition.\n"
+      operationId: action6
+      security:
+      - ApiKeyAuth: []
+      requestBody:
+        description: Game/session identifiers plus the coordinate payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComplexActionCommand'
+            examples:
+              placeTile:
+                summary: Place at (12, 34)
+                value:
+                  game_id: ls20-016295f7601e
+                  guid: 2fa5332c-2e55-4825-b5c5-df960d504470
+                  x: 12
+                  y: 34
+      responses:
+        '200':
+          description: Frame returned after executing the action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FrameResponse'
+              examples:
+                frame:
+                  value:
+                    game_id: ls20-016295f7601e
+                    guid: 2fa5332c-2e55-4825-b5c5-df960d504470
+                    frame:
+                    - - - …
+                    state: NOT_FINISHED
+                    levels_completed: 17
+                    win_levels: 254
+                    action_input:
+                      id: 6
+                      data:
+                        x: 12
+                        y: 34
+                    available_actions:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+        '400':
+          description: "Bad request - possible causes:  \n• Unknown `game_id`  \n• `guid` not found or does not belong to the supplied `game_id`  \n• `x` or `y` outside the 0-63 range\n"
+        '401':
+          description: Missing or invalid **X-API-Key** header.
+  /api/cmd/ACTION7:
+    post:
+      tags:
+      - Commands
+      summary: Execute simple action 7
+      description: "Issues **ACTION 7** to the specified game session.  \nThis is a single-parameter command (no X/Y coordinates): \nACTION7 will always be an undo action for games that support it.\n\nThe request must include:\n• `game_id` — which game to act on  \n• `guid` — the active session identifier returned from RESET  \n\nAn optional `reasoning` JSON blob (≤ 16 KB) can be attached for\naudit or research purposes.\n\nA successful call returns the next visual frame(s) and updated\nscore/state.\n"
+      operationId: action7
+      security:
+      - ApiKeyAuth: []
+      requestBody:
+        description: Game/session identifiers plus optional reasoning data.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimpleActionCommand'
+            examples:
+              action:
+                value:
+                  game_id: ls20-016295f7601e
+                  guid: 2fa5332c-2e55-4825-b5c5-df960d504470
+                  reasoning:
+                    policy: π_left
+      responses:
+        '200':
+          description: Frame returned after executing the action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FrameResponse'
+              examples:
+                frame:
+                  value:
+                    game_id: ls20-016295f7601e
+                    guid: 2fa5332c-2e55-4825-b5c5-df960d504470
+                    frame:
+                    - - - 0
+                        - 0
+                        - 1
+                        - …
+                      - - …
+                    state: NOT_FINISHED
+                    levels_completed: 3
+                    win_levels: 254
+                    action_input:
+                      id: 7
+                    available_actions:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                    - 7
+        '400':
+          description: "Bad request - possible causes:  \n• Unknown `game_id` or invalid format  \n• `guid` not found or does not belong to `game_id`  \n• `reasoning` field exceeds 16 KB or is malformed\n"
+        '401':
+          description: Missing or invalid **X-API-Key** header.
+components:
+  schemas:
+    FrameResponse:
+      type: object
+      description: "Snapshot returned after every RESET or ACTION command.  \nIncludes the latest visual frame(s), cumulative score details, the\ncurrent game state, and an echo of the triggering action.\n"
+      properties:
+        game_id:
+          type: string
+          description: Game identifier for the running session.
+        guid:
+          type: string
+          description: Server-generated session ID; use this for all subsequent commands.
+        frame:
+          type: array
+          description: 'One or more consecutive visual frames. Each frame is a 64 × 64
+
+            grid of 4-bit colour indices (integers 0-15). Multiple frames
+
+            may be returned if the environment advances internally (e.g.,
+
+            animations) before settling.
+
+            '
+          items:
+            type: array
+            items:
+              type: array
+              items:
+                type: integer
+                minimum: 0
+                maximum: 15
+        state:
+          type: string
+          description: "Current state of the session:\n\n• **NOT_FINISHED** - game in progress, not yet WIN or GAME_OVER.  \n• **NOT_STARTED**  - session has ended (WIN or GAME_OVER) and requires RESET.  \n• **WIN**          - session ended in victory.  \n• **GAME_OVER**    - session ended in defeat.\n"
+          enum:
+          - NOT_FINISHED
+          - NOT_STARTED
+          - WIN
+          - GAME_OVER
+        levels_completed:
+          type: integer
+          description: Current cumulative number of levels completed for this run.
+          minimum: 0
+          maximum: 254
+        win_levels:
+          type: integer
+          description: 'Level threshold required to reach the **WIN** state. Mirrors
+
+            the game''s configured win condition so agents can adapt
+
+            dynamically without hard-coding values.
+
+            '
+          minimum: 0
+          maximum: 254
+        action_input:
+          type: object
+          description: Echo of the command that produced this frame.
+          properties:
+            id:
+              type: integer
+              description: Client-assigned or sequential action index.
+            data:
+              type: object
+              description: Additional parameters originally sent with the action.
+              additionalProperties: true
+        available_actions:
+          type: array
+          description: List of available actions for the current game.
+          items:
+            type: integer
+            enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+      required:
+      - game_id
+      - guid
+      - frame
+      - state
+      - levels_completed
+      - win_levels
+      - action_input
+      - available_actions
+    SimpleActionCommand:
+      type: object
+      description: 'Issues a one-parameter action (ACTION1 - ACTION5) to a running
+
+        game instance identified by `guid`.
+
+
+        **Important:** Include any cookies (especially `AWSALB*` cookies) received from previous RESET or ACTION responses to ensure session affinity.
+
+        '
+      properties:
+        game_id:
+          type: string
+          description: Game identifier this action targets.
+        guid:
+          type: string
+          description: Server-generated session ID obtained from a RESET response.
+        reasoning:
+          type: object
+          description: 'Optional, caller-defined JSON blob (≤ 16 KB) capturing the
+
+            agent''s internal reasoning, model parameters, or any other
+
+            metadata you''d like to store alongside the action.
+
+            '
+          additionalProperties: true
+      required:
+      - game_id
+      - guid
+    ComplexActionCommand:
+      type: object
+      description: 'Payload for coordinate-based actions (e.g. `/api/cmd/ACTION6`).
+
+        Supplies an `(x, y)` location on the 64 × 64 game grid along with
+
+        the game/session identifiers so the engine can apply the action
+
+        to the correct running instance.
+
+
+        **Important:** Include any cookies (especially `AWSALB*` cookies) received from previous RESET or ACTION responses to ensure session affinity.
+
+        '
+      properties:
+        game_id:
+          type: string
+          description: Identifier of the game receiving this action.
+        guid:
+          type: string
+          description: Server-generated session ID obtained from the RESET call.
+        x:
+          type: integer
+          minimum: 0
+          maximum: 63
+          description: Horizontal coordinate on the game grid (0 = left, 63 = right).
+        y:
+          type: integer
+          minimum: 0
+          maximum: 63
+          description: Vertical coordinate on the game grid (0 = top, 63 = bottom).
+        reasoning:
+          type: object
+          description: 'Optional, caller-defined JSON blob (≤ 16 KB) capturing the
+
+            agent''s internal reasoning, model parameters, or any other
+
+            metadata you''d like to store alongside the action.
+
+            '
+          additionalProperties: true
+      required:
+      - game_id
+      - guid
+      - x
+      - y
+    ResetCommand:
+      type: object
+      description: "Starts a new game session **or** resets an existing one, depending on\nwhether a `guid` is supplied.\n\n• **No `guid` (null/empty)** → A brand-new game instance is created and\n  the response will include its freshly minted `guid`.\n\n• **With `guid`** → The server issues a reset to that specific\n  instance:\n    - If at least one ACTION command has been executed in the **current\n      level**, only that level is reset (typical “try again” behaviour).\n    - If no ACTION commands have been executed since the last level\n      transition, the entire game is reset to its initial state.\n\nSending two RESET commands back-to-back therefore always yields a\ncompletely fresh game.\n\nAll plays should be associated with an open scorecard via `card_id`\nso aggregated results can be tracked.\n"
+      properties:
+        game_id:
+          type: string
+          description: Identifier of the game to start or reset (e.g. `ls20`).
+        card_id:
+          type: string
+          description: 'scorecard identifier returned by **OpenScorecardResponse**. Required
+
+            to attribute this play to the correct scorecard.
+
+            '
+        guid:
+          type: string
+          nullable: true
+          description: "Server-generated game session ID.  \n• Omit or set to `null` to create a new game.  \n• Provide an existing value to reset that game as described above.\n"
+      required:
+      - game_id
+      - card_id
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key

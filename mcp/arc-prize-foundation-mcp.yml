@@ -1,0 +1,80 @@
+generated: '2026-07-18'
+method: derived
+status: candidate
+source: derived from openapi/arc-prize-foundation-arc-agi-3-openapi.yaml operations
+note: >-
+  No official hosted/remote MCP server was found for ARC-AGI-3 as of this pass
+  (searched docs.arcprize.org, github.com/arcprize, web). The following is a
+  CANDIDATE tool list derived one-to-one from the published REST operations —
+  not a running server.
+server:
+  name: arc-agi-3
+  transport: null
+  url: null
+  auth: X-API-Key header
+tools:
+- name: list_games
+  operationId: listGames
+  method: GET
+  path: /api/games
+  description: List available ARC-AGI-3 games and their game_id values.
+- name: open_scorecard
+  operationId: openScorecard
+  method: POST
+  path: /api/scorecard/open
+  description: Open a scorecard to aggregate statistics across one or more plays.
+- name: close_scorecard
+  operationId: closeScorecard
+  method: POST
+  path: /api/scorecard/close
+  description: Finalize a scorecard and return aggregate results.
+- name: get_scorecard
+  operationId: getScorecard
+  method: GET
+  path: /api/scorecard/{card_id}
+  description: Retrieve current or final statistics for a scorecard.
+- name: get_scorecard_for_game
+  operationId: getScorecardForGame
+  method: GET
+  path: /api/scorecard/{card_id}/{game_id}
+  description: Retrieve scorecard statistics limited to a single environment.
+- name: reset_game
+  operationId: resetGame
+  method: POST
+  path: /api/cmd/RESET
+  description: Start a new game session or reset an existing one.
+- name: action1
+  operationId: action1
+  method: POST
+  path: /api/cmd/ACTION1
+  description: Execute simple action 1 (single-parameter command).
+- name: action2
+  operationId: action2
+  method: POST
+  path: /api/cmd/ACTION2
+  description: Execute simple action 2.
+- name: action3
+  operationId: action3
+  method: POST
+  path: /api/cmd/ACTION3
+  description: Execute simple action 3.
+- name: action4
+  operationId: action4
+  method: POST
+  path: /api/cmd/ACTION4
+  description: Execute simple action 4.
+- name: action5
+  operationId: action5
+  method: POST
+  path: /api/cmd/ACTION5
+  description: Execute simple action 5.
+- name: action6
+  operationId: action6
+  method: POST
+  path: /api/cmd/ACTION6
+  description: Execute complex action 6 with explicit x,y coordinates (0-63).
+- name: action7
+  operationId: action7
+  method: POST
+  path: /api/cmd/ACTION7
+  description: Execute simple action 7 (undo, where supported).

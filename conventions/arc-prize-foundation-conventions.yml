@@ -1,0 +1,49 @@
+generated: '2026-07-18'
+method: searched
+source: docs.arcprize.org (rest_overview, rate_limits, api-keys) + openapi
+auth:
+  style: api-key-header
+  header: X-API-Key
+  anonymous_key: true
+  registration: https://arcprize.org/platform
+  ref: authentication/arc-prize-foundation-authentication.yml
+content_type:
+  request: application/json
+  response: application/json
+session_affinity:
+  required: true
+  mechanism: cookies
+  detail: >-
+    Games are stateful. The server sets AWSALB* load-balancer cookies that must
+    be included on all subsequent requests within the same game session so they
+    route to the correct backend instance. Session continuity across RESET/ACTION
+    calls is carried by the `guid` returned from RESET.
+idempotency:
+  supported: false
+  detail: No Idempotency-Key header or idempotent-retry semantics are documented.
+pagination:
+  supported: false
+  detail: listGames returns a flat array ordered alphabetically by title; no paging params.
+error_envelope:
+  fields:
+  - error
+  - message
+  format: custom-json
+  ref: errors/arc-prize-foundation-problem-types.yml
+rate_limiting:
+  limit_rpm: 600
+  exceeded_status: 429
+  exceeded_code: RATE_LIMIT_EXCEEDED
+  headers: none-documented
+  ref: lifecycle/arc-prize-foundation-lifecycle.yml
+versioning:
+  scheme: path-and-file
+  current: '1.0.0'
+  ref: lifecycle/arc-prize-foundation-lifecycle.yml
+field_conventions:
+  reasoning_field_max: 16 KB
+  action6_coordinate_range: 0-63 (x and y)
+  ids:
+  - game_id
+  - guid
+  - card_id

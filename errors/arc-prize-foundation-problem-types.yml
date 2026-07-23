@@ -1,0 +1,49 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/arc-prize-foundation-arc-agi-3-openapi.yaml + docs.arcprize.org/rate_limits
+format: custom-json
+envelope:
+  fields:
+  - error
+  - message
+  example: '{"error":"RATE_LIMIT_EXCEEDED","message":"rate limit has been exceeded"}'
+  note: >-
+    ARC-AGI-3 returns a plain JSON error envelope, NOT RFC 9457 problem+json.
+    The status codes below are declared in the OpenAPI responses; the 429 shape
+    is documented on the rate-limits page.
+problem_types:
+- status: 400
+  title: Bad request
+  applies_to:
+  - resetGame
+  - action1
+  - action2
+  - action3
+  - action4
+  - action5
+  - action6
+  - action7
+  remediation: >-
+    Verify game_id is known and well-formed, guid corresponds to an active
+    session for that game, coordinates x/y are within 0-63 (ACTION6), and the
+    reasoning field is under 16 KB.
+- status: 401
+  title: Missing or invalid X-API-Key header
+  applies_to: all
+  remediation: Supply a valid X-API-Key header; register a key at https://arcprize.org/platform.
+- status: 404
+  title: Scorecard not found
+  applies_to:
+  - closeScorecard
+  - getScorecard
+  - getScorecardForGame
+  remediation: >-
+    Ensure card_id corresponds to an open or closed scorecard (and, for the
+    per-game endpoint, that it contains an entry for the specified game_id).
+- status: 429
+  title: Rate limit exceeded
+  code: RATE_LIMIT_EXCEEDED
+  applies_to: all
+  remediation: >-
+    Stay under 600 requests per minute. Contact team@arcprize.org (subject
+    "Increase Rate Limits") for higher throughput.

@@ -1,23 +1,142 @@
 aid: arc-prize-foundation
 name: Arc Prize Foundation
-description: Arc Prize Foundation is a company surfaced as a portfolio company of y-combinator and added
-  to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment
-  pipeline.
+description: >-
+  The ARC Prize Foundation is a nonprofit advancing open artificial general
+  intelligence research through scientifically rigorous benchmarks and
+  competitive prizes. Its ARC-AGI benchmark series measures fluid intelligence
+  on tasks that are easy for humans but hard for AI, and its ARC-AGI-3
+  Interactive Reasoning Benchmark exposes a public REST API (three.arcprize.org)
+  plus an open-source Python toolkit and SDK for building agents that play,
+  score, and generalize across novel game environments. The Foundation runs the
+  ARC Prize competitions in partnership with Kaggle, with participation from
+  OpenAI, Google, xAI, Anthropic, and NIST.
 url: https://raw.githubusercontent.com/api-evangelist/arc-prize-foundation/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - y-combinator
-x-tier: stub
+x-tier: enriched
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://arcprize.org/media/images/og-image-default.jpg
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
 tags:
 - Company
-apis: []
+- Artificial Intelligence
+- AGI
+- Benchmarks
+- Agents
+- Reasoning
+- Machine Learning
+- Nonprofit
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- aid: arc-prize-foundation:arc-prize-foundation-commands-api
+  name: Arc Prize Foundation Commands API
+  description: The Commands API from Arc Prize Foundation — 8 operation(s) for commands.
+  humanURL: https://docs.arcprize.org
+  baseURL: https://three.arcprize.org
+  tags:
+  - Commands
+  properties:
+  - type: OpenAPI
+    url: openapi/arc-prize-foundation-commands-api-openapi.yml
+  - type: Documentation
+    url: https://docs.arcprize.org
+  - type: APIReference
+    url: https://docs.arcprize.org/rest_overview
+- aid: arc-prize-foundation:arc-prize-foundation-games-api
+  name: Arc Prize Foundation Games API
+  description: The Games API from Arc Prize Foundation — 1 operation(s) for games.
+  humanURL: https://docs.arcprize.org
+  baseURL: https://three.arcprize.org
+  tags:
+  - Games
+  properties:
+  - type: OpenAPI
+    url: openapi/arc-prize-foundation-games-api-openapi.yml
+  - type: Documentation
+    url: https://docs.arcprize.org
+  - type: APIReference
+    url: https://docs.arcprize.org/rest_overview
+- aid: arc-prize-foundation:arc-prize-foundation-scorecards-api
+  name: Arc Prize Foundation Scorecards API
+  description: The Scorecards API from Arc Prize Foundation — 4 operation(s) for scorecards.
+  humanURL: https://docs.arcprize.org
+  baseURL: https://three.arcprize.org
+  tags:
+  - Scorecards
+  properties:
+  - type: OpenAPI
+    url: openapi/arc-prize-foundation-scorecards-api-openapi.yml
+  - type: Documentation
+    url: https://docs.arcprize.org
+  - type: APIReference
+    url: https://docs.arcprize.org/rest_overview
+common:
+- type: DomainSecurity
+  url: security/arc-prize-foundation-domain-security.yml
+- type: Authentication
+  url: authentication/arc-prize-foundation-authentication.yml
+- type: Packages
+  url: packages/arc-prize-foundation-packages.yml
+- type: SDKs
+  url: packages/arc-prize-foundation-packages.yml
+- type: MCPServer
+  url: mcp/arc-prize-foundation-mcp.yml
+- type: LLMsTxt
+  url: llms/arc-prize-foundation-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: ErrorCatalog
+  url: errors/arc-prize-foundation-problem-types.yml
+- type: Conventions
+  url: conventions/arc-prize-foundation-conventions.yml
+- type: DataModel
+  url: data-model/arc-prize-foundation-data-model.yml
+- type: Conformance
+  url: conformance/arc-prize-foundation-conformance.yml
+- type: Lifecycle
+  url: lifecycle/arc-prize-foundation-lifecycle.yml
+- type: ChangeLog
+  url: changelog/arc-prize-foundation-changelog.yml
+- type: WellKnown
+  url: well-known/arc-prize-foundation-well-known.yml
+- type: DeveloperPortal
+  url: https://docs.arcprize.org
+- type: Documentation
+  url: https://docs.arcprize.org
+- type: APIReference
+  url: https://docs.arcprize.org/rest_overview
+- type: Quickstart
+  url: https://docs.arcprize.org/index
+- type: GitHubOrganization
+  url: https://github.com/arcprize
+- type: Blog
+  url: https://arcprize.org/blog
+- type: SignUp
+  url: https://arcprize.org/platform
+- type: Website
+  url: https://arcprize.org
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

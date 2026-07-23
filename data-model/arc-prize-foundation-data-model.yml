@@ -1,0 +1,46 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/arc-prize-foundation-arc-agi-3-openapi.yaml component schemas
+entities:
+- name: Game
+  id_field: game_id
+  fields: [game_id, title]
+- name: Scorecard
+  id_field: card_id
+  fields: [card_id, score, source_url, tags, user_name, user_id, published_at,
+    environments, opaque, tags_scores, open_at, last_update,
+    total_environments_completed, total_environments, total_levels_completed,
+    total_levels, total_actions]
+- name: EnvironmentSummary
+  id_field: id
+  fields: [id, runs, score, actions, levels_completed, completed, level_count, resets]
+- name: RunSummary
+  id_field: guid
+  fields: [id, guid, score, levels_completed, actions, resets, state, completed,
+    level_scores, level_actions, level_baseline_actions, number_of_levels,
+    number_of_environments]
+- name: Frame
+  id_field: guid
+  fields: [game_id, guid, frame, state, levels_completed, win_levels, action_input,
+    available_actions]
+relationships:
+- from: Scorecard
+  type: has_many
+  to: EnvironmentSummary
+  via: environments
+- from: EnvironmentSummary
+  type: has_many
+  to: RunSummary
+  via: runs
+- from: RunSummary
+  type: belongs_to
+  to: Game
+  via: game_id
+- from: Frame
+  type: belongs_to
+  to: Game
+  via: game_id
+- from: Frame
+  type: belongs_to
+  to: RunSummary
+  via: guid

@@ -1,0 +1,22 @@
+generated: '2026-07-18'
+method: searched
+source: PyPI registry + github.com/arcprize
+packages:
+- name: arc-agi
+  registry: pypi
+  url: https://pypi.org/project/arc-agi/
+  version: 0.9.9
+  language: python
+  summary: ARC-AGI Toolkit — open-source Python interface (Arcade client) for running
+    agents against ARC-AGI-3 interactive environments locally or via the online API.
+  repository: https://github.com/arcprize/ARC-AGI
+  official: true
+- name: arc-agi-3
+  registry: pypi
+  url: https://pypi.org/project/arc-agi-3/
+  version: 0.0.1
+  language: python
+  summary: Python SDK for building ARC-AGI-3 agents.
+  repository: https://github.com/arcprize/ARC-AGI-3-Agents
+  documentation: https://docs.arcprize.org/
+  official: true

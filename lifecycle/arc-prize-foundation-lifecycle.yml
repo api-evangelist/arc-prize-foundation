@@ -1,0 +1,25 @@
+generated: '2026-07-18'
+method: searched
+source: docs.arcprize.org (rest_overview, rate_limits, changelog)
+versioning:
+  scheme: path-and-file
+  current_version: '1.0.0'
+  detail: >-
+    OpenAPI declares version 1.0.0; the API surface lives under /api/* on
+    three.arcprize.org and the spec is published as arc3v1.yaml (v1).
+availability:
+  status: research-preview
+  sla: none
+  detail: >-
+    The API runs as a research preview on a best-effort basis with no formal
+    SLA or uptime guarantee. Higher rate limits by request to team@arcprize.org.
+deprecation:
+  policy: null
+  sunset_header: false
+  detail: No published deprecation or Sunset/Deprecation (RFC 8594) header policy found.
+status_page:
+  url: null
+  detail: No dedicated status page discovered.
+deprecated_operations: []
+changelog:
+  url: https://docs.arcprize.org/changelog
