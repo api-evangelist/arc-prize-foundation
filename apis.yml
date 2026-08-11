@@ -91,6 +91,8 @@ apis:
   - type: APIReference
     url: https://docs.arcprize.org/rest_overview
 common:
+- type: Overlay
+  url: overlays/arc-prize-foundation-arc-agi-3-overlay.yaml
 - type: DomainSecurity
   url: security/arc-prize-foundation-domain-security.yml
 - type: Authentication
