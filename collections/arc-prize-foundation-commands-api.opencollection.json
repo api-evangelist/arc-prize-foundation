@@ -1,0 +1,186 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ARC‑AGI‑3 REST Commands API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Commands",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Start or reset game instance",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://three.arcprize.org/api/cmd/RESET",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-Key",
+              "value": "{{X-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates a new game session **or** resets an existing one,\ndepending on the presence of `guid` in the request body:\n\n• **Omit `guid` or set it to `null`** → start a brand-new game\n  instance.  \n• **Provide an existing `guid`** → reset that session.  \n  - If at least one ACTION command has been issued since the last\n    level transition, only the **current level** is restarted.  \n  - If no ACTIONs have been issued, the entire game resets.  \n  Two consecutive RESETs therefore guarantee a completely"
+        },
+        {
+          "info": {
+            "name": "Execute simple action 1",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://three.arcprize.org/api/cmd/ACTION1",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-Key",
+              "value": "{{X-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Issues **ACTION 1** to the specified game session.  \nThis is a single-parameter command (no X/Y coordinates): the exact\nin-game effect depends on the title—for example, it might\nrepresent “move up” or “select option A”.\n\nThe request must include:\n• `game_id` — which game to act on  \n• `guid` — the active session identifier returned from RESET  \n\nAn optional `reasoning` JSON blob (≤ 16 KB) can be attached for\naudit or research purposes.\n\nA successful call returns the next visual frame(s) and upda"
+        },
+        {
+          "info": {
+            "name": "Execute simple action 2",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://three.arcprize.org/api/cmd/ACTION2",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-Key",
+              "value": "{{X-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Issues **ACTION 2** to the specified game session.  \nThis is a single-parameter command (no X/Y coordinates): the exact\nin-game effect depends on the title—for example, it might\nrepresent “move down\" or “select option B”.\n\nThe request must include:\n• `game_id` — which game to act on  \n• `guid` — the active session identifier returned from RESET  \n\nAn optional `reasoning` JSON blob (≤ 16 KB) can be attached for\naudit or research purposes.\n\nA successful call returns the next visual frame(s) and up"
+        },
+        {
+          "info": {
+            "name": "Execute simple action 3",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://three.arcprize.org/api/cmd/ACTION3",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-Key",
+              "value": "{{X-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Issues **ACTION 3** to the specified game session.  \nThis is a single-parameter command (no X/Y coordinates): the exact\nin-game effect depends on the title—for example, it might\nrepresent “move left” or “select option C”.\n\nThe request must include:\n• `game_id` — which game to act on  \n• `guid` — the active session identifier returned from RESET  \n\nAn optional `reasoning` JSON blob (≤ 16 KB) can be attached for\naudit or research purposes.\n\nA successful call returns the next visual frame(s) and up"
+        },
+        {
+          "info": {
+            "name": "Execute simple action 4",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://three.arcprize.org/api/cmd/ACTION4",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-Key",
+              "value": "{{X-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Issues **ACTION 4** to the specified game session.  \nThis is a single-parameter command (no X/Y coordinates): the exact\nin-game effect depends on the title—for example, it might\nrepresent “move right\" or “select option D”.\n\nThe request must include:\n• `game_id` — which game to act on  \n• `guid` — the active session identifier returned from RESET  \n\nAn optional `reasoning` JSON blob (≤ 16 KB) can be attached for\naudit or research purposes.\n\nA successful call returns the next visual frame(s) and u"
+        },
+        {
+          "info": {
+            "name": "Execute simple action 5",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://three.arcprize.org/api/cmd/ACTION5",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-Key",
+              "value": "{{X-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Issues **ACTION 5** to the specified game session.  \nThis is a single-parameter command (no X/Y coordinates): the exact\nin-game effect depends on the title—for example, it might\nrepresent “jump”, \"rotate\", \"fire\" or “select option E”.\n\nThe request must include:\n• `game_id` — which game to act on  \n• `guid` — the active session identifier returned from RESET  \n\nAn optional `reasoning` JSON blob (≤ 16 KB) can be attached for\naudit or research purposes.\n\nA successful call returns the next visual fr"
+        },
+        {
+          "info": {
+            "name": "Execute complex action (requires x,y)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://three.arcprize.org/api/cmd/ACTION6",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-Key",
+              "value": "{{X-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Issues **ACTION 6**—a two-parameter command that supplies explicit\nX/Y coordinates—to an active game session.  Common use-cases\ninclude “click/tap at (x,y)”, “place a tile”, or “shoot a\nprojectile,” depending on the game's mechanics.\n\nRequired fields  \n• `game_id` — the game to act in  \n• `guid`    — session identifier obtained from RESET  \n• `x`,`y`   — zero-based grid coordinates (0-63 inclusive)\n\nOn success the server applies the action, advances game logic to\nthe next stable frame, and retur"
+        },
+        {
+          "info": {
+            "name": "Execute simple action 7",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://three.arcprize.org/api/cmd/ACTION7",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-Key",
+              "value": "{{X-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Issues **ACTION 7** to the specified game session.  \nThis is a single-parameter command (no X/Y coordinates): \nACTION7 will always be an undo action for games that support it.\n\nThe request must include:\n• `game_id` — which game to act on  \n• `guid` — the active session identifier returned from RESET  \n\nAn optional `reasoning` JSON blob (≤ 16 KB) can be attached for\naudit or research purposes.\n\nA successful call returns the next visual frame(s) and updated\nscore/state.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

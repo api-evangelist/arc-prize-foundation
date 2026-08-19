@@ -1,0 +1,116 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ARC‑AGI‑3 REST Commands Scorecards API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Scorecards",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Open scorecard",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://three.arcprize.org/api/scorecard/open",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-Key",
+              "value": "{{X-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates a new scorecard to aggregate statistics across one or more\nplays. The server returns a `card_id`, which must be included in all\nsubsequent RESET commands and in the final **/scorecard/close** call.\nYou may attach optional metadata (URL, tags, opaque JSON) that will\nbe echoed back in summary responses.\n"
+        },
+        {
+          "info": {
+            "name": "Close scorecard",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://three.arcprize.org/api/scorecard/close",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-Key",
+              "value": "{{X-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Finalises a previously opened scorecard, locking its data and\nreturning the aggregate results.  \nAfter a scorecard is closed, additional RESET or ACTION commands\nusing its `card_id` are rejected.  \nYou must supply the `card_id` obtained from **/scorecard/open**.\n"
+        },
+        {
+          "info": {
+            "name": "Retrieve scorecard",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://three.arcprize.org/api/scorecard/:card_id",
+            "params": [
+              {
+                "name": "card_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier returned by **/scorecard/open**."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-Key",
+              "value": "{{X-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns the current (or final) statistics for the specified\nscorecard.  \nThis works for both open and already-closed scorecards, making it\nuseful for polling progress or fetching archived results.\n"
+        },
+        {
+          "info": {
+            "name": "Retrieve scorecard (one game)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://three.arcprize.org/api/scorecard/:card_id/:game_id",
+            "params": [
+              {
+                "name": "card_id",
+                "value": "",
+                "type": "path",
+                "description": "Identifier returned by **/scorecard/open**."
+              },
+              {
+                "name": "game_id",
+                "value": "",
+                "type": "path",
+                "description": "Game identifier to filter by (e.g. `ls20-1d57d6daeb05`)."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-Key",
+              "value": "{{X-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns the scorecard statistics **limited to a single environment**.\nOnly the entry matching `game_id` is present in `environments`; all\ntop-level counters are recomputed for that environment alone.\n\nUseful for dashboards that present per-game progress without\nfetching the full scorecard payload.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

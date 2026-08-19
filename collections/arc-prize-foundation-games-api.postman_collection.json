@@ -1,0 +1,168 @@
+{
+  "item": [
+    {
+      "id": "2dff54a7-6f24-4037-9424-14f4fbba81a1",
+      "name": "Games",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ecc9cb0b-fb0e-480b-a89c-e81a981d3d35",
+          "name": "List available games",
+          "request": {
+            "name": "List available games",
+            "description": {
+              "content": "Retrieves metadata for every game currently exposed by the\nARC-AGI-3 platform.  \nUse this discovery endpoint to obtain `game_id` values before\nopening a scorecard or issuing commands. Results are returned as\na flat array ordered alphabetically by `title`.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "games"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "362febe0-6726-4739-b8ec-83386c828de4",
+              "name": "Successful lookup; array of game descriptors.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "games"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"game_id\": \"ls20-016295f7601e\",\n    \"title\": \"LS20\"\n  },\n  {\n    \"game_id\": \"ft09-16726c5b26ff\",\n    \"title\": \"FT09\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5c20e17e-7118-48c8-9b31-6829a89386ed",
+              "name": "Missing or invalid **X-API-Key** header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "games"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://three.arcprize.org",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "096c7738-074a-4079-833c-825b394e10dd",
+    "name": "ARC‑AGI‑3 REST Commands Games API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Programmatic interface for running agents against ARC‑AGI‑3 games, opening/closing score‑cards and driving game state with actions.\nAll requests **require** an `X‑API‑Key` header issued from the ARC‑AGI‑3 web console.\n\n**Important: Session Affinity via Cookies**  \nGames are stateful and require session affinity. The server sets cookies (especially `AWSALB*` cookies) in responses that **must be included in all subsequent requests** for the same game session. These cookies route requests to the correct backend instance maintaining your game state. Most HTTP clients handle cookies automatically, but ensure your client preserves and sends cookies received from RESET and ACTION responses.\n",
+      "type": "text/plain"
+    }
+  }
+}

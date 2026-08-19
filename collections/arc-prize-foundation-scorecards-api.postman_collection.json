@@ -1,0 +1,873 @@
+{
+  "item": [
+    {
+      "id": "9705ff24-8391-41da-9c21-0d1b5b6fa188",
+      "name": "Scorecards",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c83800c9-f9fd-4f89-a95c-99db2aa07e96",
+          "name": "Open scorecard",
+          "request": {
+            "name": "Open scorecard",
+            "description": {
+              "content": "Creates a new scorecard to aggregate statistics across one or more\nplays. The server returns a `card_id`, which must be included in all\nsubsequent RESET commands and in the final **/scorecard/close** call.\nYou may attach optional metadata (URL, tags, opaque JSON) that will\nbe echoed back in summary responses.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "scorecard",
+                "open"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source_url\": \"<uri>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"opaque\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": 4357,\n    \"key_3\": 7870.606956693029\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8af2525b-9a86-4db3-9421-bc8f8e359020",
+              "name": "scorecard successfully created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "scorecard",
+                    "open"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"card_id\": \"8bb3b1b8-4b46-4a29-a13b-ad7850a0f916\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7d15758a-9fb8-4e51-9dfb-1960dffbdbc7",
+              "name": "Missing or invalid **X-API-Key** header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "scorecard",
+                    "open"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7f652541-9a82-4398-b001-02b49af4be4b",
+          "name": "Close scorecard",
+          "request": {
+            "name": "Close scorecard",
+            "description": {
+              "content": "Finalises a previously opened scorecard, locking its data and\nreturning the aggregate results.  \nAfter a scorecard is closed, additional RESET or ACTION commands\nusing its `card_id` are rejected.  \nYou must supply the `card_id` obtained from **/scorecard/open**.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "scorecard",
+                "close"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"card_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "11712b3b-f500-463c-b4d5-7571c5f90fb1",
+              "name": "scorecard closed; final aggregate results returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "scorecard",
+                    "close"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"card_id\": \"8bb3b1b8-4b46-4a29-a13b-ad7850a0f916\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"card_id\": \"8ae52f21-b40c-457b-9f4e-65bd8381e67f\",\n  \"score\": 100,\n  \"source_url\": \"https://sandbox.internal.arc-prize.com\",\n  \"tags\": [\n    \"human\"\n  ],\n  \"user_name\": \"distracted_poincare\",\n  \"user_id\": \"102214435702678430912@google\",\n  \"published_at\": \"2026-01-26T23:34:57.097896Z\",\n  \"environments\": [\n    {\n      \"id\": \"am92-80effacb\",\n      \"runs\": [\n        {\n          \"id\": \"am92-80effacb\",\n          \"guid\": \"4a38a278-796b-4f42-a28b-a27a68dbf862\",\n          \"score\": 100,\n          \"levels_completed\": 5,\n          \"actions\": 136,\n          \"resets\": 0,\n          \"state\": \"WIN\",\n          \"completed\": true,\n          \"level_scores\": [\n            100,\n            100,\n            100,\n            100,\n            100\n          ],\n          \"level_actions\": [\n            12,\n            34,\n            41,\n            26,\n            23\n          ],\n          \"level_baseline_actions\": [\n            20,\n            40,\n            50,\n            55,\n            60\n          ],\n          \"number_of_levels\": 0,\n          \"number_of_environments\": 0\n        }\n      ],\n      \"score\": 100,\n      \"actions\": 136,\n      \"levels_completed\": 5,\n      \"completed\": true,\n      \"level_count\": 5,\n      \"resets\": 0\n    }\n  ],\n  \"tags_scores\": [\n    {\n      \"id\": \"change9\",\n      \"guid\": \"d3a0a4d8-536c-479d-b5a8-10bf1dc8aee3\",\n      \"score\": 100,\n      \"levels_completed\": 5,\n      \"actions\": 136,\n      \"resets\": 0,\n      \"state\": \"NOT_FINISHED\",\n      \"completed\": false,\n      \"number_of_levels\": 5,\n      \"number_of_environments\": 1\n    },\n    {\n      \"id\": \"example\",\n      \"guid\": \"66fe6b58-adf8-45b1-ac73-70ed486e22d0\",\n      \"score\": 100,\n      \"levels_completed\": 5,\n      \"actions\": 136,\n      \"resets\": 0,\n      \"state\": \"NOT_FINISHED\",\n      \"completed\": false,\n      \"number_of_levels\": 5,\n      \"number_of_environments\": 1\n    }\n  ],\n  \"open_at\": \"2026-01-26T23:34:18.213873Z\",\n  \"last_update\": \"2026-01-26T23:34:53.229182Z\",\n  \"total_environments_completed\": 1,\n  \"total_environments\": 1,\n  \"total_levels_completed\": 5,\n  \"total_levels\": 5,\n  \"total_actions\": 136\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "77ca9fbc-cc58-49d2-bf5f-44c1d863fdec",
+              "name": "Missing or invalid **X-API-Key** header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "scorecard",
+                    "close"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"card_id\": \"8bb3b1b8-4b46-4a29-a13b-ad7850a0f916\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "73bfff55-22a3-4e05-8200-b503e6130b55",
+              "name": "Supplied `card_id` does not correspond to an open scorecard.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "scorecard",
+                    "close"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"card_id\": \"8bb3b1b8-4b46-4a29-a13b-ad7850a0f916\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b5ae9c13-a64f-483a-8c60-1e7045df0467",
+          "name": "Retrieve scorecard",
+          "request": {
+            "name": "Retrieve scorecard",
+            "description": {
+              "content": "Returns the current (or final) statistics for the specified\nscorecard.  \nThis works for both open and already-closed scorecards, making it\nuseful for polling progress or fetching archived results.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "scorecard",
+                ":card_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "card_id",
+                  "description": "(Required) Identifier returned by **/scorecard/open**."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "19dafc56-48f1-4f21-99e0-0bc8bbc869ad",
+              "name": "scorecard found; summary returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "scorecard",
+                    ":card_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "card_id",
+                      "description": "(Required) Identifier returned by **/scorecard/open**."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"card_id\": \"8ae52f21-b40c-457b-9f4e-65bd8381e67f\",\n  \"score\": 100,\n  \"source_url\": \"https://sandbox.internal.arc-prize.com\",\n  \"tags\": [\n    \"human\"\n  ],\n  \"user_name\": \"distracted_poincare\",\n  \"user_id\": \"102214435702678430912@google\",\n  \"open_at\": \"2026-01-26T23:34:18.213873Z\",\n  \"last_update\": \"2026-01-26T23:34:53.229182Z\",\n  \"total_environments_completed\": 1,\n  \"total_environments\": 1,\n  \"total_levels_completed\": 5,\n  \"total_levels\": 5,\n  \"total_actions\": 136,\n  \"environments\": [],\n  \"tags_scores\": []\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a07f7516-d60a-48dc-a5c0-03e09dc4f4d1",
+              "name": "Missing or invalid **X-API-Key** header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "scorecard",
+                    ":card_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "card_id",
+                      "description": "(Required) Identifier returned by **/scorecard/open**."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3311981f-1135-4f35-94e2-5c76845fa3f8",
+              "name": "No open or closed scorecard found with the supplied `card_id`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "scorecard",
+                    ":card_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "card_id",
+                      "description": "(Required) Identifier returned by **/scorecard/open**."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ff7888e8-08a7-44c5-a1bc-4dc2eea1d5ee",
+          "name": "Retrieve scorecard (one game)",
+          "request": {
+            "name": "Retrieve scorecard (one game)",
+            "description": {
+              "content": "Returns the scorecard statistics **limited to a single environment**.\nOnly the entry matching `game_id` is present in `environments`; all\ntop-level counters are recomputed for that environment alone.\n\nUseful for dashboards that present per-game progress without\nfetching the full scorecard payload.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "scorecard",
+                ":card_id",
+                ":game_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "card_id",
+                  "description": "(Required) Identifier returned by **/scorecard/open**."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "game_id",
+                  "description": "(Required) Game identifier to filter by (e.g. `ls20-1d57d6daeb05`)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "e62da546-e44c-4977-bb0b-8d496a1460a3",
+              "name": "scorecard found; statistics for the requested game.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "scorecard",
+                    ":card_id",
+                    ":game_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "card_id",
+                      "description": "(Required) Identifier returned by **/scorecard/open**."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "game_id",
+                      "description": "(Required) Game identifier to filter by (e.g. `ls20-1d57d6daeb05`)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"card_id\": \"8ae52f21-b40c-457b-9f4e-65bd8381e67f\",\n  \"score\": 100,\n  \"source_url\": \"https://sandbox.internal.arc-prize.com\",\n  \"tags\": [\n    \"human\"\n  ],\n  \"user_name\": \"distracted_poincare\",\n  \"user_id\": \"102214435702678430912@google\",\n  \"open_at\": \"2026-01-26T23:34:18.213873Z\",\n  \"last_update\": \"2026-01-26T23:34:53.229182Z\",\n  \"total_environments_completed\": 1,\n  \"total_environments\": 1,\n  \"total_levels_completed\": 5,\n  \"total_levels\": 5,\n  \"total_actions\": 136,\n  \"environments\": [\n    {\n      \"id\": \"ft09-1d57d6daeb05\",\n      \"runs\": [\n        {\n          \"id\": \"ft09-1d57d6daeb05\",\n          \"guid\": \"66fe6b58-adf8-45b1-ac73-70ed486e22d0\",\n          \"score\": 3,\n          \"levels_completed\": 2,\n          \"actions\": 478,\n          \"resets\": 0,\n          \"state\": \"WIN\",\n          \"completed\": true,\n          \"level_scores\": [\n            1,\n            2\n          ],\n          \"level_actions\": [\n            171,\n            307\n          ],\n          \"level_baseline_actions\": [\n            200,\n            250\n          ],\n          \"number_of_levels\": 5,\n          \"number_of_environments\": 1\n        }\n      ],\n      \"score\": 3,\n      \"actions\": 478,\n      \"levels_completed\": 2,\n      \"completed\": true,\n      \"level_count\": 5,\n      \"resets\": 0\n    }\n  ],\n  \"tags_scores\": []\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "545cf649-bd50-4c4c-b55b-06398e4ddffa",
+              "name": "Missing or invalid **X-API-Key** header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "scorecard",
+                    ":card_id",
+                    ":game_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "card_id",
+                      "description": "(Required) Identifier returned by **/scorecard/open**."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "game_id",
+                      "description": "(Required) Game identifier to filter by (e.g. `ls20-1d57d6daeb05`)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a14e06dc-ac0f-4102-bf01-8348a5db4af6",
+              "name": "Either the supplied `card_id` does not exist, or the\nscorecard contains no entry for the specified `game_id`.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "scorecard",
+                    ":card_id",
+                    ":game_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "card_id",
+                      "description": "(Required) Identifier returned by **/scorecard/open**."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "game_id",
+                      "description": "(Required) Game identifier to filter by (e.g. `ls20-1d57d6daeb05`)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://three.arcprize.org",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6abe63d5-f8e0-4a6c-9c37-19d7121af235",
+    "name": "ARC‑AGI‑3 REST Commands Scorecards API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Programmatic interface for running agents against ARC‑AGI‑3 games, opening/closing score‑cards and driving game state with actions.\nAll requests **require** an `X‑API‑Key` header issued from the ARC‑AGI‑3 web console.\n\n**Important: Session Affinity via Cookies**  \nGames are stateful and require session affinity. The server sets cookies (especially `AWSALB*` cookies) in responses that **must be included in all subsequent requests** for the same game session. These cookies route requests to the correct backend instance maintaining your game state. Most HTTP clients handle cookies automatically, but ensure your client preserves and sends cookies received from RESET and ACTION responses.\n",
+      "type": "text/plain"
+    }
+  }
+}

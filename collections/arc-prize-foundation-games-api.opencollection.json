@@ -1,0 +1,35 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ARC‑AGI‑3 REST Commands Games API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Games",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List available games",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://three.arcprize.org/api/games",
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-Key",
+              "value": "{{X-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieves metadata for every game currently exposed by the\nARC-AGI-3 platform.  \nUse this discovery endpoint to obtain `game_id` values before\nopening a scorecard or issuing commands. Results are returned as\na flat array ordered alphabetically by `title`.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

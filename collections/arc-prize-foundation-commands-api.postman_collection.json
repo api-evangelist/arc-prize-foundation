@@ -1,0 +1,1768 @@
+{
+  "item": [
+    {
+      "id": "6429adc1-6cc4-4127-9a5d-dbe867186798",
+      "name": "Commands",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d547cd8b-340d-40ff-be36-54e83553f219",
+          "name": "Start or reset game instance",
+          "request": {
+            "name": "Start or reset game instance",
+            "description": {
+              "content": "Creates a new game session **or** resets an existing one,\ndepending on the presence of `guid` in the request body:\n\n• **Omit `guid` or set it to `null`** → start a brand-new game\n  instance.  \n• **Provide an existing `guid`** → reset that session.  \n  - If at least one ACTION command has been issued since the last\n    level transition, only the **current level** is restarted.  \n  - If no ACTIONs have been issued, the entire game resets.  \n  Two consecutive RESETs therefore guarantee a completely fresh\n  game.\n\nThe call always returns the first (or refreshed) frame of the\ngame state, along with updated score and win condition.\n\n**Note:** The response includes cookies (particularly `AWSALB*` cookies) that must be included in all subsequent ACTION commands for this session. These cookies ensure requests are routed to the same backend instance maintaining your game state.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "cmd",
+                "RESET"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"game_id\": \"<string>\",\n  \"card_id\": \"<string>\",\n  \"guid\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "27bfc771-033b-475e-9255-4d56cda38a11",
+              "name": "First frame after starting or resetting the session.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "RESET"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"card_id\": \"8bb3b1b8-4b46-4a29-a13b-ad7850a0f916\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"frame\": [\n    [\n      [\n        0,\n        0,\n        0,\n        \"…\"\n      ],\n      [\n        \"…\"\n      ]\n    ]\n  ],\n  \"state\": \"NOT_FINISHED\",\n  \"levels_completed\": 0,\n  \"win_levels\": 254,\n  \"action_input\": {\n    \"id\": 0,\n    \"data\": {}\n  },\n  \"available_actions\": [\n    1,\n    2,\n    3,\n    4\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7019ed4d-da17-4e1e-8e01-365cd84243e8",
+              "name": "Bad request - possible causes:  \n• Unknown `game_id`  \n• Missing or unknown `card_id`  \n• `guid` does not correspond to an active session\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "RESET"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"card_id\": \"8bb3b1b8-4b46-4a29-a13b-ad7850a0f916\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1db26e87-4e34-48f7-b040-0ac654b8f414",
+              "name": "Missing or invalid **X-API-Key** header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "RESET"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"card_id\": \"8bb3b1b8-4b46-4a29-a13b-ad7850a0f916\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "be31a206-279f-4ce8-a24d-f95cec8c26ae",
+          "name": "Execute simple action 1",
+          "request": {
+            "name": "Execute simple action 1",
+            "description": {
+              "content": "Issues **ACTION 1** to the specified game session.  \nThis is a single-parameter command (no X/Y coordinates): the exact\nin-game effect depends on the title—for example, it might\nrepresent “move up” or “select option A”.\n\nThe request must include:\n• `game_id` — which game to act on  \n• `guid` — the active session identifier returned from RESET  \n\nAn optional `reasoning` JSON blob (≤ 16 KB) can be attached for\naudit or research purposes.\n\nA successful call returns the next visual frame(s) and updated\nscore/state.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "cmd",
+                "ACTION1"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"game_id\": \"<string>\",\n  \"guid\": \"<string>\",\n  \"reasoning\": {\n    \"key_0\": false,\n    \"key_1\": 8904.934778416373,\n    \"key_2\": \"string\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "215d5631-e27d-41ef-8ff9-5bfa23d5dae4",
+              "name": "Frame returned after executing the action.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"reasoning\": {\n    \"policy\": \"π_left\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"frame\": [\n    [\n      [\n        0,\n        0,\n        1,\n        \"…\"\n      ],\n      [\n        \"…\"\n      ]\n    ]\n  ],\n  \"state\": \"NOT_FINISHED\",\n  \"levels_completed\": 3,\n  \"win_levels\": 254,\n  \"action_input\": {\n    \"id\": 1\n  },\n  \"available_actions\": [\n    1,\n    2,\n    3,\n    4\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e97f4b06-7eb4-4d55-b38e-5eaf673abcc9",
+              "name": "Bad request - possible causes:  \n• Unknown `game_id` or invalid format  \n• `guid` not found or does not belong to `game_id`  \n• `reasoning` field exceeds 16 KB or is malformed\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"reasoning\": {\n    \"policy\": \"π_left\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f9789a0f-0af1-49b8-94df-780a0c68ec9d",
+              "name": "Missing or invalid **X-API-Key** header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION1"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"reasoning\": {\n    \"policy\": \"π_left\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "815a40dc-2e7a-4017-91a7-ab3eaeddc18e",
+          "name": "Execute simple action 2",
+          "request": {
+            "name": "Execute simple action 2",
+            "description": {
+              "content": "Issues **ACTION 2** to the specified game session.  \nThis is a single-parameter command (no X/Y coordinates): the exact\nin-game effect depends on the title—for example, it might\nrepresent “move down\" or “select option B”.\n\nThe request must include:\n• `game_id` — which game to act on  \n• `guid` — the active session identifier returned from RESET  \n\nAn optional `reasoning` JSON blob (≤ 16 KB) can be attached for\naudit or research purposes.\n\nA successful call returns the next visual frame(s) and updated\nscore/state.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "cmd",
+                "ACTION2"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"game_id\": \"<string>\",\n  \"guid\": \"<string>\",\n  \"reasoning\": {\n    \"key_0\": false,\n    \"key_1\": 8904.934778416373,\n    \"key_2\": \"string\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2b57f7dd-2fa2-4a73-99bc-71c7cd6ee37a",
+              "name": "Frame returned after executing the action.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"reasoning\": {\n    \"policy\": \"π_left\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"frame\": [\n    [\n      [\n        0,\n        0,\n        1,\n        \"…\"\n      ],\n      [\n        \"…\"\n      ]\n    ]\n  ],\n  \"state\": \"NOT_FINISHED\",\n  \"levels_completed\": 3,\n  \"win_levels\": 254,\n  \"action_input\": {\n    \"id\": 2\n  },\n  \"available_actions\": [\n    1,\n    2,\n    3,\n    4\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c369deb2-137a-40ba-b084-c4eae39a978c",
+              "name": "Bad request - possible causes:  \n• Unknown `game_id` or invalid format  \n• `guid` not found or does not belong to `game_id`  \n• `reasoning` field exceeds 16 KB or is malformed\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"reasoning\": {\n    \"policy\": \"π_left\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "24ea14b0-f39f-4ac3-8688-14af7d21edf9",
+              "name": "Missing or invalid **X-API-Key** header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"reasoning\": {\n    \"policy\": \"π_left\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ec3f7f15-b9a8-47af-aca7-8b3ae3395f1f",
+          "name": "Execute simple action 3",
+          "request": {
+            "name": "Execute simple action 3",
+            "description": {
+              "content": "Issues **ACTION 3** to the specified game session.  \nThis is a single-parameter command (no X/Y coordinates): the exact\nin-game effect depends on the title—for example, it might\nrepresent “move left” or “select option C”.\n\nThe request must include:\n• `game_id` — which game to act on  \n• `guid` — the active session identifier returned from RESET  \n\nAn optional `reasoning` JSON blob (≤ 16 KB) can be attached for\naudit or research purposes.\n\nA successful call returns the next visual frame(s) and updated\nscore/state.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "cmd",
+                "ACTION3"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"game_id\": \"<string>\",\n  \"guid\": \"<string>\",\n  \"reasoning\": {\n    \"key_0\": false,\n    \"key_1\": 8904.934778416373,\n    \"key_2\": \"string\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f49dac95-c7db-4289-9aaa-9385e8fb6fe4",
+              "name": "Frame returned after executing the action.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION3"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"reasoning\": {\n    \"policy\": \"π_left\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"frame\": [\n    [\n      [\n        0,\n        0,\n        1,\n        \"…\"\n      ],\n      [\n        \"…\"\n      ]\n    ]\n  ],\n  \"state\": \"NOT_FINISHED\",\n  \"levels_completed\": 3,\n  \"win_levels\": 254,\n  \"action_input\": {\n    \"id\": 3\n  },\n  \"available_actions\": [\n    1,\n    2,\n    3,\n    4\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bc2e8731-d738-48ac-8405-9c31569c9393",
+              "name": "Bad request - possible causes:  \n• Unknown `game_id` or invalid format  \n• `guid` not found or does not belong to `game_id`  \n• `reasoning` field exceeds 16 KB or is malformed\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION3"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"reasoning\": {\n    \"policy\": \"π_left\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "10319c39-7a4b-49fc-ab50-14dae6e229a3",
+              "name": "Missing or invalid **X-API-Key** header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION3"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"reasoning\": {\n    \"policy\": \"π_left\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6ac5cf0b-bcd4-4a36-aca8-17e76567782d",
+          "name": "Execute simple action 4",
+          "request": {
+            "name": "Execute simple action 4",
+            "description": {
+              "content": "Issues **ACTION 4** to the specified game session.  \nThis is a single-parameter command (no X/Y coordinates): the exact\nin-game effect depends on the title—for example, it might\nrepresent “move right\" or “select option D”.\n\nThe request must include:\n• `game_id` — which game to act on  \n• `guid` — the active session identifier returned from RESET  \n\nAn optional `reasoning` JSON blob (≤ 16 KB) can be attached for\naudit or research purposes.\n\nA successful call returns the next visual frame(s) and updated\nscore/state.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "cmd",
+                "ACTION4"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"game_id\": \"<string>\",\n  \"guid\": \"<string>\",\n  \"reasoning\": {\n    \"key_0\": false,\n    \"key_1\": 8904.934778416373,\n    \"key_2\": \"string\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "787d35f3-1ef4-4a36-aab8-07f410b475a1",
+              "name": "Frame returned after executing the action.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION4"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"reasoning\": {\n    \"policy\": \"π_left\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"frame\": [\n    [\n      [\n        0,\n        0,\n        1,\n        \"…\"\n      ],\n      [\n        \"…\"\n      ]\n    ]\n  ],\n  \"state\": \"NOT_FINISHED\",\n  \"levels_completed\": 3,\n  \"win_levels\": 254,\n  \"action_input\": {\n    \"id\": 4\n  },\n  \"available_actions\": [\n    1,\n    2,\n    3,\n    4\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aa349a16-b5fb-4f17-be4f-c5ca8b5ce770",
+              "name": "Bad request - possible causes:  \n• Unknown `game_id` or invalid format  \n• `guid` not found or does not belong to `game_id`  \n• `reasoning` field exceeds 16 KB or is malformed\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION4"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"reasoning\": {\n    \"policy\": \"π_left\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ddbbb4c3-a37b-4a4e-b039-a13c10017912",
+              "name": "Missing or invalid **X-API-Key** header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION4"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"reasoning\": {\n    \"policy\": \"π_left\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0ef9ec8a-4d5e-4ffd-8684-09680b909d51",
+          "name": "Execute simple action 5",
+          "request": {
+            "name": "Execute simple action 5",
+            "description": {
+              "content": "Issues **ACTION 5** to the specified game session.  \nThis is a single-parameter command (no X/Y coordinates): the exact\nin-game effect depends on the title—for example, it might\nrepresent “jump”, \"rotate\", \"fire\" or “select option E”.\n\nThe request must include:\n• `game_id` — which game to act on  \n• `guid` — the active session identifier returned from RESET  \n\nAn optional `reasoning` JSON blob (≤ 16 KB) can be attached for\naudit or research purposes.\n\nA successful call returns the next visual frame(s) and updated\nscore/state.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "cmd",
+                "ACTION5"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"game_id\": \"<string>\",\n  \"guid\": \"<string>\",\n  \"reasoning\": {\n    \"key_0\": false,\n    \"key_1\": 8904.934778416373,\n    \"key_2\": \"string\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6a724517-e1de-467a-9cc4-f6cbf82b9481",
+              "name": "Frame returned after executing the action.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION5"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"reasoning\": {\n    \"policy\": \"π_left\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"frame\": [\n    [\n      [\n        0,\n        0,\n        1,\n        \"…\"\n      ],\n      [\n        \"…\"\n      ]\n    ]\n  ],\n  \"state\": \"NOT_FINISHED\",\n  \"levels_completed\": 3,\n  \"win_levels\": 254,\n  \"action_input\": {\n    \"id\": 5\n  },\n  \"available_actions\": [\n    1,\n    2,\n    3,\n    4\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3ab21286-9cee-4e86-8f1a-1f60d5985f0b",
+              "name": "Bad request - possible causes:  \n• Unknown `game_id` or invalid format  \n• `guid` not found or does not belong to `game_id`  \n• `reasoning` field exceeds 16 KB or is malformed\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION5"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"reasoning\": {\n    \"policy\": \"π_left\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4e88cf0b-138e-497a-8502-fec0345b63db",
+              "name": "Missing or invalid **X-API-Key** header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION5"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"reasoning\": {\n    \"policy\": \"π_left\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4433047a-080a-4597-888c-e3b75d200ebe",
+          "name": "Execute complex action (requires x,y)",
+          "request": {
+            "name": "Execute complex action (requires x,y)",
+            "description": {
+              "content": "Issues **ACTION 6**—a two-parameter command that supplies explicit\nX/Y coordinates—to an active game session.  Common use-cases\ninclude “click/tap at (x,y)”, “place a tile”, or “shoot a\nprojectile,” depending on the game's mechanics.\n\nRequired fields  \n• `game_id` — the game to act in  \n• `guid`    — session identifier obtained from RESET  \n• `x`,`y`   — zero-based grid coordinates (0-63 inclusive)\n\nOn success the server applies the action, advances game logic to\nthe next stable frame, and returns that frame together with the\nupdated score, state, and win condition.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "cmd",
+                "ACTION6"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"game_id\": \"<string>\",\n  \"guid\": \"<string>\",\n  \"x\": \"<integer>\",\n  \"y\": \"<integer>\",\n  \"reasoning\": {\n    \"key_0\": 1236.284617161999,\n    \"key_1\": \"string\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4ee1b9e2-7e93-44bf-9110-7cb211b16f69",
+              "name": "Frame returned after executing the action.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION6"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"x\": 12,\n  \"y\": 34\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"frame\": [\n    [\n      [\n        \"…\"\n      ]\n    ]\n  ],\n  \"state\": \"NOT_FINISHED\",\n  \"levels_completed\": 17,\n  \"win_levels\": 254,\n  \"action_input\": {\n    \"id\": 6,\n    \"data\": {\n      \"x\": 12,\n      \"y\": 34\n    }\n  },\n  \"available_actions\": [\n    1,\n    2,\n    3,\n    4\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f8c181cc-3802-485f-bbc8-546d6ff039a6",
+              "name": "Bad request - possible causes:  \n• Unknown `game_id`  \n• `guid` not found or does not belong to the supplied `game_id`  \n• `x` or `y` outside the 0-63 range\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION6"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"x\": 12,\n  \"y\": 34\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a8ef6a9a-605d-45e5-a860-8effee5ba214",
+              "name": "Missing or invalid **X-API-Key** header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION6"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"x\": 12,\n  \"y\": 34\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7ec65b44-085c-4d81-aba7-1432aa45c2d5",
+          "name": "Execute simple action 7",
+          "request": {
+            "name": "Execute simple action 7",
+            "description": {
+              "content": "Issues **ACTION 7** to the specified game session.  \nThis is a single-parameter command (no X/Y coordinates): \nACTION7 will always be an undo action for games that support it.\n\nThe request must include:\n• `game_id` — which game to act on  \n• `guid` — the active session identifier returned from RESET  \n\nAn optional `reasoning` JSON blob (≤ 16 KB) can be attached for\naudit or research purposes.\n\nA successful call returns the next visual frame(s) and updated\nscore/state.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "cmd",
+                "ACTION7"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"game_id\": \"<string>\",\n  \"guid\": \"<string>\",\n  \"reasoning\": {\n    \"key_0\": false,\n    \"key_1\": 8904.934778416373,\n    \"key_2\": \"string\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2547a8cb-5229-46f6-9b80-702f12fa77b2",
+              "name": "Frame returned after executing the action.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION7"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"reasoning\": {\n    \"policy\": \"π_left\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"frame\": [\n    [\n      [\n        0,\n        0,\n        1,\n        \"…\"\n      ],\n      [\n        \"…\"\n      ]\n    ]\n  ],\n  \"state\": \"NOT_FINISHED\",\n  \"levels_completed\": 3,\n  \"win_levels\": 254,\n  \"action_input\": {\n    \"id\": 7\n  },\n  \"available_actions\": [\n    1,\n    2,\n    3,\n    4,\n    7\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "36ef4e75-24bb-4f30-ad24-0a8902039b93",
+              "name": "Bad request - possible causes:  \n• Unknown `game_id` or invalid format  \n• `guid` not found or does not belong to `game_id`  \n• `reasoning` field exceeds 16 KB or is malformed\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION7"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"reasoning\": {\n    \"policy\": \"π_left\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ddaee549-35e0-460e-b849-a1b597ff51c8",
+              "name": "Missing or invalid **X-API-Key** header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "cmd",
+                    "ACTION7"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"game_id\": \"ls20-016295f7601e\",\n  \"guid\": \"2fa5332c-2e55-4825-b5c5-df960d504470\",\n  \"reasoning\": {\n    \"policy\": \"π_left\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://three.arcprize.org",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "a7dbfa3a-96a2-4d58-a2a6-c679688e0cf3",
+    "name": "ARC‑AGI‑3 REST Commands API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Programmatic interface for running agents against ARC‑AGI‑3 games, opening/closing score‑cards and driving game state with actions.\nAll requests **require** an `X‑API‑Key` header issued from the ARC‑AGI‑3 web console.\n\n**Important: Session Affinity via Cookies**  \nGames are stateful and require session affinity. The server sets cookies (especially `AWSALB*` cookies) in responses that **must be included in all subsequent requests** for the same game session. These cookies route requests to the correct backend instance maintaining your game state. Most HTTP clients handle cookies automatically, but ensure your client preserves and sends cookies received from RESET and ACTION responses.\n",
+      "type": "text/plain"
+    }
+  }
+}

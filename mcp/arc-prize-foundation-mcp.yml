@@ -2,11 +2,9 @@ generated: '2026-07-18'
 method: derived
 status: candidate
 source: derived from openapi/arc-prize-foundation-arc-agi-3-openapi.yaml operations
-note: >-
-  No official hosted/remote MCP server was found for ARC-AGI-3 as of this pass
-  (searched docs.arcprize.org, github.com/arcprize, web). The following is a
-  CANDIDATE tool list derived one-to-one from the published REST operations —
-  not a running server.
+note: No official hosted/remote MCP server was found for ARC-AGI-3 as of this pass (searched docs.arcprize.org,
+  github.com/arcprize, web). The following is a CANDIDATE tool list derived one-to-one from the published
+  REST operations — not a running server.
 server:
   name: arc-agi-3
   transport: null
@@ -78,3 +76,9 @@ tools:
   method: POST
   path: /api/cmd/ACTION7
   description: Execute simple action 7 (undo, where supported).
+deployment:
+  mode: none
+  verified: derived
+  tools: 13
+  checked: '2026-08-12'
+  source: catalog MCP census
