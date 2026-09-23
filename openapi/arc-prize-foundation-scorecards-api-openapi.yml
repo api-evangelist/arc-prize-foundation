@@ -1,8 +1,8 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: ARC‑AGI‑3 REST Commands Scorecards API
+  title: ARC‑AGI‑3 REST Scorecards API
   version: 1.0.0
-  description: "Programmatic interface for running agents against ARC‑AGI‑3 games, opening/closing score‑cards and driving game state with actions.\nAll requests **require** an `X‑API‑Key` header issued from the ARC‑AGI‑3 web console.\n\n**Important: Session Affinity via Cookies**  \nGames are stateful and require session affinity. The server sets cookies (especially `AWSALB*` cookies) in responses that **must be included in all subsequent requests** for the same game session. These cookies route requests to the correct backend instance maintaining your game state. Most HTTP clients handle cookies automatically, but ensure your client preserves and sends cookies received from RESET and ACTION responses.\n"
+  description: Programmatic interface for running agents against ARC‑AGI‑3 games, opening/closing score‑cards and driving game state with actions.
 servers:
 - url: https://three.arcprize.org
 tags:
@@ -21,9 +21,7 @@ paths:
 
         You may attach optional metadata (URL, tags, opaque JSON) that will
 
-        be echoed back in summary responses.
-
-        '
+        be echoed back in summary responses.'
       operationId: openScorecard
       security:
       - ApiKeyAuth: []
@@ -66,7 +64,15 @@ paths:
       tags:
       - Scorecards
       summary: Close scorecard
-      description: "Finalises a previously opened scorecard, locking its data and\nreturning the aggregate results.  \nAfter a scorecard is closed, additional RESET or ACTION commands\nusing its `card_id` are rejected.  \nYou must supply the `card_id` obtained from **/scorecard/open**.\n"
+      description: 'Finalises a previously opened scorecard, locking its data and
+
+        returning the aggregate results.
+
+        After a scorecard is closed, additional RESET or ACTION commands
+
+        using its `card_id` are rejected.
+
+        You must supply the `card_id` obtained from **/scorecard/open**.'
       operationId: closeScorecard
       security:
       - ApiKeyAuth: []
@@ -173,7 +179,13 @@ paths:
       tags:
       - Scorecards
       summary: Retrieve scorecard
-      description: "Returns the current (or final) statistics for the specified\nscorecard.  \nThis works for both open and already-closed scorecards, making it\nuseful for polling progress or fetching archived results.\n"
+      description: 'Returns the current (or final) statistics for the specified
+
+        scorecard.
+
+        This works for both open and already-closed scorecards, making it
+
+        useful for polling progress or fetching archived results.'
       operationId: getScorecard
       security:
       - ApiKeyAuth: []
@@ -228,9 +240,7 @@ paths:
 
         Useful for dashboards that present per-game progress without
 
-        fetching the full scorecard payload.
-
-        '
+        fetching the full scorecard payload.'
       operationId: getScorecardForGame
       security:
       - ApiKeyAuth: []
@@ -310,215 +320,6 @@ paths:
             '
 components:
   schemas:
-    OpenScorecardResponse:
-      type: object
-      description: 'Response returned after a successful “open scorecard” request.
-
-        Contains the server-generated identifier for this tracked run.
-
-        '
-      properties:
-        card_id:
-          type: string
-          description: Globally unique ID for the newly opened scorecard.
-      required:
-      - card_id
-    TagScore:
-      type: object
-      description: Per-tag aggregate statistics for runs that were tagged (e.g. for filtering).
-      properties:
-        id:
-          type: string
-          description: Tag or run identifier.
-        guid:
-          type: string
-          description: Session id associated with this tag entry.
-        score:
-          type: integer
-          description: Aggregate score for this tag.
-        levels_completed:
-          type: integer
-          description: Levels completed for this tag.
-        actions:
-          type: integer
-          description: Total actions for this tag.
-        resets:
-          type: integer
-          description: Resets for this tag.
-        state:
-          type: string
-          enum:
-          - NOT_FINISHED
-          - NOT_STARTED
-          - WIN
-          - GAME_OVER
-          description: Terminal state for this tag run, if applicable.
-        completed:
-          type: boolean
-          description: Whether this tag run reached a terminal state.
-        number_of_levels:
-          type: integer
-          description: Number of levels.
-        number_of_environments:
-          type: integer
-          description: Number of environments.
-      required:
-      - id
-      - guid
-      - score
-      - levels_completed
-      - actions
-      - resets
-      - state
-      - completed
-      - number_of_levels
-      - number_of_environments
-    RunSummary:
-      type: object
-      description: 'Statistics for a single run (one RESET → play until WIN/GAME_OVER or abandon)
-
-        within an environment. Arrays `level_scores`, `level_actions`, and
-
-        `level_baseline_actions` align by index (one entry per level).
-
-        '
-      properties:
-        id:
-          type: string
-          description: Environment id this run belongs to.
-        guid:
-          type: string
-          description: Server-generated session id for this run.
-        score:
-          type: integer
-          description: Score achieved in this run (0–254).
-        levels_completed:
-          type: integer
-          description: Number of levels completed in this run.
-        actions:
-          type: integer
-          description: Number of actions taken in this run.
-        resets:
-          type: integer
-          description: Number of resets (level or full) in this run.
-        state:
-          type: string
-          description: "Final state of the run:\n• **NOT_FINISHED** - run is active.  \n• **NOT_STARTED**  - run has ended and would need RESET to continue.  \n• **WIN**          - run ended in victory.  \n• **GAME_OVER**    - run ended in defeat.\n"
-          enum:
-          - NOT_FINISHED
-          - NOT_STARTED
-          - WIN
-          - GAME_OVER
-        completed:
-          type: boolean
-          description: Whether the run reached a terminal state (WIN or GAME_OVER).
-        level_scores:
-          type: array
-          description: Score achieved at each level (positional).
-          items:
-            type: integer
-        level_actions:
-          type: array
-          description: Actions taken at each level (positional).
-          items:
-            type: integer
-        level_baseline_actions:
-          type: array
-          description: Baseline (e.g. par) actions per level, when defined (positional).
-          items:
-            type: integer
-        number_of_levels:
-          type: integer
-          description: Number of levels in this environment (may be 0 if not applicable).
-        number_of_environments:
-          type: integer
-          description: Number of environments (may be 0 if not applicable).
-      required:
-      - id
-      - guid
-      - score
-      - levels_completed
-      - actions
-      - resets
-      - state
-      - completed
-    OpenScorecardRequest:
-      type: object
-      description: "Optional metadata sent when opening a scorecard.  \nEvery field is optional; omit any you don't need.  \nUse this to attach provenance links, free-form tags, or an\n“opaque” JSON blob describing the run (e.g. model settings,\nhyper-parameters, experiment notes). The opaque payload must not\nexceed 16 KB once serialized.\n"
-      properties:
-        source_url:
-          type: string
-          format: uri
-          description: Link to code, notebook, or write-up associated with the run.
-        tags:
-          type: array
-          description: Arbitrary labels for later filtering and aggregation.
-          items:
-            type: string
-        opaque:
-          type: object
-          description: 'Free-form JSON data (≤ 16 KB). Stored verbatim; the service
-
-            does not inspect or validate its structure.
-
-            '
-          additionalProperties: true
-    CloseScorecardRequest:
-      type: object
-      description: 'Payload for closing a previously opened scorecard and finalising
-
-        its aggregated results.
-
-        '
-      properties:
-        card_id:
-          type: string
-          description: 'Identifier of the scorecard to close—use the `card_id`
-
-            returned by **OpenScorecardResponse**.
-
-            '
-      required:
-      - card_id
-    EnvironmentSummary:
-      type: object
-      description: "Statistics for one environment (game) inside a scorecard.  \nContains aggregate counts and an array of `runs` (one per RESET/play).\n"
-      properties:
-        id:
-          type: string
-          description: Environment/game identifier (e.g. `am92-80effacb`).
-        runs:
-          type: array
-          description: One entry per run (RESET) in this environment.
-          items:
-            $ref: '#/components/schemas/RunSummary'
-        score:
-          type: integer
-          description: Aggregate score for this environment.
-        actions:
-          type: integer
-          description: Total actions taken in this environment across all runs.
-        levels_completed:
-          type: integer
-          description: Levels completed in this environment.
-        completed:
-          type: boolean
-          description: Whether this environment reached a terminal state (WIN or GAME_OVER).
-        level_count:
-          type: integer
-          description: Number of levels in this environment.
-        resets:
-          type: integer
-          description: Number of RESETs (level or full) in this environment.
-      required:
-      - id
-      - runs
-      - score
-      - actions
-      - levels_completed
-      - completed
-      - level_count
-      - resets
     ScorecardSummary:
       type: object
       description: "Aggregate results for an entire scorecard run.  \nReturned when closing a scorecard or when retrieving a scorecard (open or closed).\nIncludes cumulative totals, optional metadata echoed from the open request\n(e.g. `source_url`, `tags`, `opaque`), user identity (`user_name`, `user_id`),\ntimestamps (`open_at`, `last_update`, `published_at`), and a per-environment\nbreakdown in `environments`. The `tags_scores` array provides per-tag aggregates\nfor runs that were tagged.\n"
@@ -600,6 +401,215 @@ components:
       - total_levels_completed
       - total_levels
       - total_actions
+    OpenScorecardResponse:
+      type: object
+      description: 'Response returned after a successful “open scorecard” request.
+
+        Contains the server-generated identifier for this tracked run.
+
+        '
+      properties:
+        card_id:
+          type: string
+          description: Globally unique ID for the newly opened scorecard.
+      required:
+      - card_id
+    CloseScorecardRequest:
+      type: object
+      description: 'Payload for closing a previously opened scorecard and finalising
+
+        its aggregated results.
+
+        '
+      properties:
+        card_id:
+          type: string
+          description: 'Identifier of the scorecard to close—use the `card_id`
+
+            returned by **OpenScorecardResponse**.
+
+            '
+      required:
+      - card_id
+    RunSummary:
+      type: object
+      description: 'Statistics for a single run (one RESET → play until WIN/GAME_OVER or abandon)
+
+        within an environment. Arrays `level_scores`, `level_actions`, and
+
+        `level_baseline_actions` align by index (one entry per level).
+
+        '
+      properties:
+        id:
+          type: string
+          description: Environment id this run belongs to.
+        guid:
+          type: string
+          description: Server-generated session id for this run.
+        score:
+          type: integer
+          description: Score achieved in this run (0–254).
+        levels_completed:
+          type: integer
+          description: Number of levels completed in this run.
+        actions:
+          type: integer
+          description: Number of actions taken in this run.
+        resets:
+          type: integer
+          description: Number of resets (level or full) in this run.
+        state:
+          type: string
+          description: "Final state of the run:\n• **NOT_FINISHED** - run is active.  \n• **NOT_STARTED**  - run has ended and would need RESET to continue.  \n• **WIN**          - run ended in victory.  \n• **GAME_OVER**    - run ended in defeat.\n"
+          enum:
+          - NOT_FINISHED
+          - NOT_STARTED
+          - WIN
+          - GAME_OVER
+        completed:
+          type: boolean
+          description: Whether the run reached a terminal state (WIN or GAME_OVER).
+        level_scores:
+          type: array
+          description: Score achieved at each level (positional).
+          items:
+            type: integer
+        level_actions:
+          type: array
+          description: Actions taken at each level (positional).
+          items:
+            type: integer
+        level_baseline_actions:
+          type: array
+          description: Baseline (e.g. par) actions per level, when defined (positional).
+          items:
+            type: integer
+        number_of_levels:
+          type: integer
+          description: Number of levels in this environment (may be 0 if not applicable).
+        number_of_environments:
+          type: integer
+          description: Number of environments (may be 0 if not applicable).
+      required:
+      - id
+      - guid
+      - score
+      - levels_completed
+      - actions
+      - resets
+      - state
+      - completed
+    EnvironmentSummary:
+      type: object
+      description: "Statistics for one environment (game) inside a scorecard.  \nContains aggregate counts and an array of `runs` (one per RESET/play).\n"
+      properties:
+        id:
+          type: string
+          description: Environment/game identifier (e.g. `am92-80effacb`).
+        runs:
+          type: array
+          description: One entry per run (RESET) in this environment.
+          items:
+            $ref: '#/components/schemas/RunSummary'
+        score:
+          type: integer
+          description: Aggregate score for this environment.
+        actions:
+          type: integer
+          description: Total actions taken in this environment across all runs.
+        levels_completed:
+          type: integer
+          description: Levels completed in this environment.
+        completed:
+          type: boolean
+          description: Whether this environment reached a terminal state (WIN or GAME_OVER).
+        level_count:
+          type: integer
+          description: Number of levels in this environment.
+        resets:
+          type: integer
+          description: Number of RESETs (level or full) in this environment.
+      required:
+      - id
+      - runs
+      - score
+      - actions
+      - levels_completed
+      - completed
+      - level_count
+      - resets
+    OpenScorecardRequest:
+      type: object
+      description: "Optional metadata sent when opening a scorecard.  \nEvery field is optional; omit any you don't need.  \nUse this to attach provenance links, free-form tags, or an\n“opaque” JSON blob describing the run (e.g. model settings,\nhyper-parameters, experiment notes). The opaque payload must not\nexceed 16 KB once serialized.\n"
+      properties:
+        source_url:
+          type: string
+          format: uri
+          description: Link to code, notebook, or write-up associated with the run.
+        tags:
+          type: array
+          description: Arbitrary labels for later filtering and aggregation.
+          items:
+            type: string
+        opaque:
+          type: object
+          description: 'Free-form JSON data (≤ 16 KB). Stored verbatim; the service
+
+            does not inspect or validate its structure.
+
+            '
+          additionalProperties: true
+    TagScore:
+      type: object
+      description: Per-tag aggregate statistics for runs that were tagged (e.g. for filtering).
+      properties:
+        id:
+          type: string
+          description: Tag or run identifier.
+        guid:
+          type: string
+          description: Session id associated with this tag entry.
+        score:
+          type: integer
+          description: Aggregate score for this tag.
+        levels_completed:
+          type: integer
+          description: Levels completed for this tag.
+        actions:
+          type: integer
+          description: Total actions for this tag.
+        resets:
+          type: integer
+          description: Resets for this tag.
+        state:
+          type: string
+          enum:
+          - NOT_FINISHED
+          - NOT_STARTED
+          - WIN
+          - GAME_OVER
+          description: Terminal state for this tag run, if applicable.
+        completed:
+          type: boolean
+          description: Whether this tag run reached a terminal state.
+        number_of_levels:
+          type: integer
+          description: Number of levels.
+        number_of_environments:
+          type: integer
+          description: Number of environments.
+      required:
+      - id
+      - guid
+      - score
+      - levels_completed
+      - actions
+      - resets
+      - state
+      - completed
+      - number_of_levels
+      - number_of_environments
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

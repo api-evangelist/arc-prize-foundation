@@ -1,9 +1,7 @@
 {
   "provider": "arc-prize-foundation",
   "sources": [
-    "arc-prize-foundation-commands-api-openapi.yml",
-    "arc-prize-foundation-games-api-openapi.yml",
-    "arc-prize-foundation-scorecards-api-openapi.yml"
+    "_original/arc-prize-foundation-arc-agi-3-openapi.yaml"
   ],
   "outputs": [
     "arc-prize-foundation-commands-api-openapi.yml",
@@ -13,6 +11,14 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "arc-prize-foundation-arc-agi-3-openapi.yaml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "arc-prize-foundation-commands-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "arc-prize-foundation-games-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "arc-prize-foundation-scorecards-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
