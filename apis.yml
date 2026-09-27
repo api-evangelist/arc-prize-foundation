@@ -57,7 +57,7 @@ tags:
 - Benchmarks
 - Agents
 - Reasoning
-- Machine-Learning
+- Machine Learning
 - Non-Profit
 tags_raw:
 - Company
@@ -68,6 +68,7 @@ tags_raw:
 - Reasoning
 - Machine Learning
 - Nonprofit
+- Machine-Learning
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
