@@ -642,6 +642,28 @@ paths:
           description: Missing or invalid **X-API-Key** header.
 components:
   schemas:
+    ResetCommand:
+      type: object
+      description: "Starts a new game session **or** resets an existing one, depending on\nwhether a `guid` is supplied.\n\n• **No `guid` (null/empty)** → A brand-new game instance is created and\n  the response will include its freshly minted `guid`.\n\n• **With `guid`** → The server issues a reset to that specific\n  instance:\n    - If at least one ACTION command has been executed in the **current\n      level**, only that level is reset (typical “try again” behaviour).\n    - If no ACTION commands have been executed since the last level\n      transition, the entire game is reset to its initial state.\n\nSending two RESET commands back-to-back therefore always yields a\ncompletely fresh game.\n\nAll plays should be associated with an open scorecard via `card_id`\nso aggregated results can be tracked.\n"
+      properties:
+        game_id:
+          type: string
+          description: Identifier of the game to start or reset (e.g. `ls20`).
+        card_id:
+          type: string
+          description: 'scorecard identifier returned by **OpenScorecardResponse**. Required
+
+            to attribute this play to the correct scorecard.
+
+            '
+        guid:
+          type:
+          - string
+          - 'null'
+          description: "Server-generated game session ID.  \n• Omit or set to `null` to create a new game.  \n• Provide an existing value to reset that game as described above.\n"
+      required:
+      - game_id
+      - card_id
     FrameResponse:
       type: object
       description: "Snapshot returned after every RESET or ACTION command.  \nIncludes the latest visual frame(s), cumulative score details, the\ncurrent game state, and an echo of the triggering action.\n"
@@ -727,36 +749,6 @@ components:
       - win_levels
       - action_input
       - available_actions
-    SimpleActionCommand:
-      type: object
-      description: 'Issues a one-parameter action (ACTION1 - ACTION5) to a running
-
-        game instance identified by `guid`.
-
-
-        **Important:** Include any cookies (especially `AWSALB*` cookies) received from previous RESET or ACTION responses to ensure session affinity.
-
-        '
-      properties:
-        game_id:
-          type: string
-          description: Game identifier this action targets.
-        guid:
-          type: string
-          description: Server-generated session ID obtained from a RESET response.
-        reasoning:
-          type: object
-          description: 'Optional, caller-defined JSON blob (≤ 16 KB) capturing the
-
-            agent''s internal reasoning, model parameters, or any other
-
-            metadata you''d like to store alongside the action.
-
-            '
-          additionalProperties: true
-      required:
-      - game_id
-      - guid
     ComplexActionCommand:
       type: object
       description: 'Payload for coordinate-based actions (e.g. `/api/cmd/ACTION6`).
@@ -803,28 +795,36 @@ components:
       - guid
       - x
       - y
-    ResetCommand:
+    SimpleActionCommand:
       type: object
-      description: "Starts a new game session **or** resets an existing one, depending on\nwhether a `guid` is supplied.\n\n• **No `guid` (null/empty)** → A brand-new game instance is created and\n  the response will include its freshly minted `guid`.\n\n• **With `guid`** → The server issues a reset to that specific\n  instance:\n    - If at least one ACTION command has been executed in the **current\n      level**, only that level is reset (typical “try again” behaviour).\n    - If no ACTION commands have been executed since the last level\n      transition, the entire game is reset to its initial state.\n\nSending two RESET commands back-to-back therefore always yields a\ncompletely fresh game.\n\nAll plays should be associated with an open scorecard via `card_id`\nso aggregated results can be tracked.\n"
+      description: 'Issues a one-parameter action (ACTION1 - ACTION5) to a running
+
+        game instance identified by `guid`.
+
+
+        **Important:** Include any cookies (especially `AWSALB*` cookies) received from previous RESET or ACTION responses to ensure session affinity.
+
+        '
       properties:
         game_id:
           type: string
-          description: Identifier of the game to start or reset (e.g. `ls20`).
-        card_id:
+          description: Game identifier this action targets.
+        guid:
           type: string
-          description: 'scorecard identifier returned by **OpenScorecardResponse**. Required
+          description: Server-generated session ID obtained from a RESET response.
+        reasoning:
+          type: object
+          description: 'Optional, caller-defined JSON blob (≤ 16 KB) capturing the
 
-            to attribute this play to the correct scorecard.
+            agent''s internal reasoning, model parameters, or any other
+
+            metadata you''d like to store alongside the action.
 
             '
-        guid:
-          type:
-          - string
-          - 'null'
-          description: "Server-generated game session ID.  \n• Omit or set to `null` to create a new game.  \n• Provide an existing value to reset that game as described above.\n"
+          additionalProperties: true
       required:
       - game_id
-      - card_id
+      - guid
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
