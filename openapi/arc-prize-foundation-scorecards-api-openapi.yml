@@ -320,6 +320,69 @@ paths:
             '
 components:
   schemas:
+    OpenScorecardResponse:
+      type: object
+      description: 'Response returned after a successful “open scorecard” request.
+
+        Contains the server-generated identifier for this tracked run.
+
+        '
+      properties:
+        card_id:
+          type: string
+          description: Globally unique ID for the newly opened scorecard.
+      required:
+      - card_id
+    TagScore:
+      type: object
+      description: Per-tag aggregate statistics for runs that were tagged (e.g. for filtering).
+      properties:
+        id:
+          type: string
+          description: Tag or run identifier.
+        guid:
+          type: string
+          description: Session id associated with this tag entry.
+        score:
+          type: integer
+          description: Aggregate score for this tag.
+        levels_completed:
+          type: integer
+          description: Levels completed for this tag.
+        actions:
+          type: integer
+          description: Total actions for this tag.
+        resets:
+          type: integer
+          description: Resets for this tag.
+        state:
+          type: string
+          enum:
+          - NOT_FINISHED
+          - NOT_STARTED
+          - WIN
+          - GAME_OVER
+          description: Terminal state for this tag run, if applicable.
+        completed:
+          type: boolean
+          description: Whether this tag run reached a terminal state.
+        number_of_levels:
+          type: integer
+          description: Number of levels.
+        number_of_environments:
+          type: integer
+          description: Number of environments.
+      required:
+      - id
+      - guid
+      - score
+      - levels_completed
+      - actions
+      - resets
+      - state
+      - completed
+      - number_of_levels
+      - number_of_environments
     OpenScorecardRequest:
       type: object
       description: "Optional metadata sent when opening a scorecard.  \nEvery field is optional; omit any you don't need.  \nUse this to attach provenance links, free-form tags, or an\n“opaque” JSON blob describing the run (e.g. model settings,\nhyper-parameters, experiment notes). The opaque payload must not\nexceed 16 KB once serialized.\n"
@@ -449,69 +512,6 @@ components:
       - completed
       - level_count
       - resets
-    OpenScorecardResponse:
-      type: object
-      description: 'Response returned after a successful “open scorecard” request.
-
-        Contains the server-generated identifier for this tracked run.
-
-        '
-      properties:
-        card_id:
-          type: string
-          description: Globally unique ID for the newly opened scorecard.
-      required:
-      - card_id
-    TagScore:
-      type: object
-      description: Per-tag aggregate statistics for runs that were tagged (e.g. for filtering).
-      properties:
-        id:
-          type: string
-          description: Tag or run identifier.
-        guid:
-          type: string
-          description: Session id associated with this tag entry.
-        score:
-          type: integer
-          description: Aggregate score for this tag.
-        levels_completed:
-          type: integer
-          description: Levels completed for this tag.
-        actions:
-          type: integer
-          description: Total actions for this tag.
-        resets:
-          type: integer
-          description: Resets for this tag.
-        state:
-          type: string
-          enum:
-          - NOT_FINISHED
-          - NOT_STARTED
-          - WIN
-          - GAME_OVER
-          description: Terminal state for this tag run, if applicable.
-        completed:
-          type: boolean
-          description: Whether this tag run reached a terminal state.
-        number_of_levels:
-          type: integer
-          description: Number of levels.
-        number_of_environments:
-          type: integer
-          description: Number of environments.
-      required:
-      - id
-      - guid
-      - score
-      - levels_completed
-      - actions
-      - resets
-      - state
-      - completed
-      - number_of_levels
-      - number_of_environments
     ScorecardSummary:
       type: object
       description: "Aggregate results for an entire scorecard run.  \nReturned when closing a scorecard or when retrieving a scorecard (open or closed).\nIncludes cumulative totals, optional metadata echoed from the open request\n(e.g. `source_url`, `tags`, `opaque`), user identity (`user_name`, `user_id`),\ntimestamps (`open_at`, `last_update`, `published_at`), and a per-environment\nbreakdown in `environments`. The `tags_scores` array provides per-tag aggregates\nfor runs that were tagged.\n"
