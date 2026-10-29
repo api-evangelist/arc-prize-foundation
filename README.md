@@ -64,6 +64,111 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Arc Prize Foundation is a company surfaced as a portfolio company of y-combinator and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+The ARC Prize Foundation is a nonprofit advancing open artificial general intelligence research through scientifically rigorous benchmarks and competitive prizes. Its ARC-AGI benchmark series measures fluid intelligence on tasks that are easy for humans but hard for AI, and its ARC-AGI-3 Interactive Reasoning Benchmark exposes a public REST API (three.arcprize.org) plus an open-source Python toolkit and SDK for building agents that play, score, and generalize across novel game environments. The Foundation runs the ARC Prize competitions in partnership with Kaggle, with participation from OpenAI, Google, xAI, Anthropic, and NIST.
 
-Backed by: y-combinator
+**Areas:** Company · Artificial Intelligence · AGI · Benchmarks · Agents · Reasoning · Machine Learning · Non-Profit
+
+## Arc Prize Foundation on APIs.io
+
+Everything profiled for Arc Prize Foundation is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/arc-prize-foundation/](https://apis.io/providers/arc-prize-foundation/)** — or go straight to one of the APIs or properties below.
+
+### APIs (3)
+
+- [Arc Prize Foundation Commands API](https://apis.io/apis/arc-prize-foundation/arc-prize-foundation-commands-api/) — The Commands API from Arc Prize Foundation — 8 operation(s) for commands.
+- [Arc Prize Foundation Games API](https://apis.io/apis/arc-prize-foundation/arc-prize-foundation-games-api/) — The Games API from Arc Prize Foundation — 1 operation(s) for games.
+- [Arc Prize Foundation Scorecards API](https://apis.io/apis/arc-prize-foundation/arc-prize-foundation-scorecards-api/) — The Scorecards API from Arc Prize Foundation — 4 operation(s) for scorecards.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [arc-agi-3](https://apis.io/servers/arc-prize-foundation/arc-agi-3/)
+
+#### Collections (3)
+
+Postman and Open Collection request collections.
+
+- [ARC‑AGI‑3 REST Commands API](https://apis.io/collections/arc-prize-foundation/open-arc-prize-foundation-commands-api/)
+- [ARC‑AGI‑3 REST Commands Games API](https://apis.io/collections/arc-prize-foundation/open-arc-prize-foundation-games-api/)
+- [ARC‑AGI‑3 REST Commands Scorecards API](https://apis.io/collections/arc-prize-foundation/open-arc-prize-foundation-scorecards-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Arc Prize Foundation Arc Agi 3 Overlay](https://apis.io/overlays/arc-prize-foundation/arc-prize-foundation-arc-agi-3-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Arc Prize Foundation Authentication](https://apis.io/security/arc-prize-foundation/arc-prize-foundation-authentication/)
+- [Arc Prize Foundation Domain Security](https://apis.io/security/arc-prize-foundation/arc-prize-foundation-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://arcprize.org)
+- [Documentation](https://docs.arcprize.org)
+- [API reference](https://docs.arcprize.org/rest_overview)
+- [Sign up](https://arcprize.org/platform)
+- [Blog](https://arcprize.org/blog)
+- [GitHub](https://github.com/arcprize)
+
+## API Evangelist rating
+
+**Kin Score 37.2** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 50.8 |
+| Contract governance | 4.5 |
+| Operational transparency | 18.4 |
+| Developer ergonomics | 61.3 |
+| Access clarity | 13.2 |
+
+**Agent readiness 22.1** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 15.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/arc-prize-foundation/](https://apis.io/providers/arc-prize-foundation/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Arc Prize Foundation: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/arc-prize-foundation/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
